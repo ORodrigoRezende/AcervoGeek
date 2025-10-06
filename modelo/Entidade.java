@@ -1,7 +1,7 @@
 package modelo;
 
 public abstract class Entidade{
-    protected int id; // Pode ser static , n entendi oq ele quer
+    protected int id;
 
     public Entidade(){
         super(); //Coloquei pq na lista de ex dele ele colocou ;-;

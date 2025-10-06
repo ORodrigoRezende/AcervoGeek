@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Scanner;
 import modelo.Cliente;
 
-
+//Vai ser excluido 
 public class RegistroCliente {
-    List<Cliente> rCliente;
+    private ArrayList<Cliente> rCliente;
 
     public RegistroCliente() {
         rCliente = new ArrayList<>();

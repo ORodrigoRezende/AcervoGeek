@@ -1,14 +1,13 @@
 package modelo;
 
-public class Cliente{
-    private int id_cliente;
+public class Cliente extends Entidade{
     private String nome_do_cliente;
     private String telefone_do_cliente;
     private String cpf;
     private String endereco;
     
     public Cliente(){
-        this.id_cliente = 0;
+        super();
         this.nome_do_cliente = "";
         this.telefone_do_cliente = "";
         this.cpf = "";
@@ -16,19 +15,11 @@ public class Cliente{
     }
 
     public Cliente(int id, String nome_do_cliente, String telefone_do_cliente, String cpf, String endereco) {
-        this.id_cliente = id;
+        super(id);
         this.nome_do_cliente = nome_do_cliente;
         this.telefone_do_cliente = telefone_do_cliente;
         this.cpf = cpf;
         this.endereco = endereco;
-    }
-
-    public int getId_cliente() {
-        return id_cliente;
-    }
-
-    public void setId_cliente(int id_cliente) {
-        this.id_cliente = id_cliente;
     }
 
     public String getNome_do_cliente() {
@@ -63,6 +54,6 @@ public class Cliente{
         this.endereco = endereco;
     }
     public String toString() {
-        return "\n Cliente\n Id: "+id_cliente+"\n Nome: " + nome_do_cliente + "\n Telefone: " + telefone_do_cliente + "\n CPF: "+ cpf + "\n Endereço:" + endereco + "\n";
+        return "\n Nome: " + nome_do_cliente + "\n Telefone: " + telefone_do_cliente + "\n CPF: "+ cpf + "\n Endereço:" + endereco + "\n";
     }
 }
