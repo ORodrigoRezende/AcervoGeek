@@ -53,4 +53,9 @@ public class Jogo extends Entidade{
     public void setDesenvolvedor(String desenvolvedor) {
         this.desenvolvedor = desenvolvedor;
     }
+
+    @Override
+    public String toString() {
+        return "Nome:" + nome + "\nGenero: " + genero + "\n Valor: " + valor + "\n Desenvolvedor: " + desenvolvedor;
+    }
 }
