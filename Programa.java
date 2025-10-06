@@ -9,7 +9,7 @@ public class Programa {
         Scanner scn = new Scanner(System.in);
         BancodeDados bd =  new BancodeDados();
         int op1=0,op2=0;
-        while(op1!=5){
+        while(op1!=6){
             System.out.println("""
                     Acervo Geek
                 
@@ -61,7 +61,23 @@ public class Programa {
                             bd.getrCliente().inserir(new Cliente(id,nome,telefone,cpf,endereco));
                             break;
                         case 2:
-                            // Inserção Jogo    
+                            System.out.println("Digite o id do jogo: ");
+                            int idJogo = scn.nextInt();
+
+                            System.out.println("Digite o nome do jogo: ");
+                            String nomeJogo = scn.next();
+
+                            System.out.println("Digite o genero do jogo: ");
+                            String generoJogo = scn.next();
+
+                            System.out.println("Digite o valor do jogo: ");
+                            float valorJogo = scn.nextFloat();
+
+                            System.out.println("Digite o autor do jogo: ");
+                            String desenvolvedorJogo = scn.next();
+
+                            bd.getrJogo().inserir(new modelo.Jogo(desenvolvedorJogo, nomeJogo, generoJogo, valorJogo, idJogo));
+    
                         break;
                         case 3:
                             System.out.println("Digite o id do livro: ");
@@ -83,7 +99,23 @@ public class Programa {
 
                             break;
                         case 4:
-                            // Inserção Filme
+                            System.out.println("Digite o id do filme: ");
+                            int idFilme = scn.nextInt();
+
+                            System.out.println("Digite o nome do filme: ");
+                            String nomeFilme = scn.next();
+
+                            System.out.println("Digite o genero do filme: ");
+                            String generoFilme = scn.next();
+
+                            System.out.println("Digite o valor do filme: ");
+                            float valorFilme = scn.nextFloat();
+
+                            System.out.println("Digite o autor do filme: ");
+                            String diretorFilme = scn.next();
+
+                            bd.getrFilme().inserir(new modelo.Filme(diretorFilme,nomeFilme, generoFilme, valorFilme, idFilme));
+
                         case 5:
                             //Sai da Inserção
                         break;
@@ -141,7 +173,37 @@ public class Programa {
                             if(!endereco.isEmpty())c.setEndereco(endereco);*/
                             break;
                         case 2:
-                            // Inserção Jogo    
+                            System.out.println("Digite o id do jogo que deseja alterar: ");
+                            int idJogoA = scn.nextInt();
+
+                            modelo.Jogo j = (modelo.Jogo)bd.getrJogo().buscar(idJogoA);
+
+                            if (j == null){
+                                System.out.println("Jogo nao encontrado!");
+                                break;
+                            }
+
+                            System.out.println("Se nao deseja alterar so da Enter");
+
+                            System.out.printf("Novo nome do jogo: ", j.getNome());
+                            String novoNomeJ = scn.nextLine();
+                            if (!novoNomeJ.isEmpty()) { j.setNome(novoNomeJ); }
+
+                            System.out.printf("Novo genero do jogo: ", j.getGenero());
+                            String novoGeneroJ = scn.nextLine();
+                            if (!novoGeneroJ.isEmpty()) { j.setGenero(novoGeneroJ); }
+
+                            System.out.printf("Novo valor do jogo: ", j.getValor());
+                            String novoValorJ = scn.nextLine();
+                            if (!novoValorJ.isEmpty()) { j.setValor(Float.parseFloat(novoValorJ)); }
+
+                            System.out.printf("Novo autor do jogo: ", j.getDesenvolvedor());
+                            String novoAutorJ = scn.nextLine();
+                            if (!novoAutorJ.isEmpty()) { j.setDesenvolvedor(novoAutorJ); }
+
+                            bd.getrJogo().alterar(j);
+                            System.out.println("Dados do jogo alterados com sucesso!");
+    
                         break;
                         case 3:
                             System.out.println("Digite o id do livro que deseja alterar: ");
@@ -177,7 +239,37 @@ public class Programa {
 
                             break;
                         case 4:
-                            // Inserção Filme
+                            System.out.println("Digite o id do filme que deseja alterar: ");
+                            int idFilmeA = scn.nextInt();
+
+                            modelo.Filme f = (modelo.Filme)bd.getrFilme().buscar(idFilmeA);
+
+                            if (f == null){
+                                System.out.println("Filme nao encontrado!");
+                                break;
+                            }
+
+                            System.out.println("Se nao deseja alterar so da Enter");
+
+                            System.out.printf("Novo nome do filme: ", f.getNome());
+                            String novoNomeF = scn.nextLine();
+                            if (!novoNomeF.isEmpty()) { f.setNome(novoNomeF); }
+
+                            System.out.printf("Novo genero do filme: ", f.getGenero());
+                            String novoGeneroF = scn.nextLine();
+                            if (!novoGeneroF.isEmpty()) { f.setGenero(novoGeneroF); }
+
+                            System.out.printf("Novo valor do filme: ", f.getValor());
+                            String novoValorF = scn.nextLine();
+                            if (!novoValorF.isEmpty()) { f.setValor(Float.parseFloat(novoValorF)); }
+
+                            System.out.printf("Novo autor do filme: ", f.getDiretor());
+                            String novoDiretorF = scn.nextLine();
+                            if (!novoDiretorF.isEmpty()) { f.setDiretor(novoDiretorF); }
+
+                            bd.getrFilme().alterar(f);
+                            System.out.println("Dados do filme alterados com sucesso!");
+
                         case 5:
                             //Sai da Inserção
                         break;
@@ -217,7 +309,14 @@ public class Programa {
                                     bd.getrCliente().excluir(id);*/
                                     break;
                                 case 2:
-                                    // Inserção Jogo    
+                                    System.out.println("Digite o id do jogo que deseja remover: ");
+                                    int idJogoR = scn.nextInt();
+
+                                    if (bd.getrJogo().excluir(idJogoR)){
+                                        System.out.println("Jogo removido com sucesso!");
+                                    } else{
+                                        System.out.println("Id do jogo nao existe! Tente novamente");
+                                    }    
                                 break;
                                 case 3:
                                     System.out.println("Digite o id do livro que deseja remover: ");
@@ -231,7 +330,14 @@ public class Programa {
                                     
                                     break;
                             case 4:
-                                // Inserção Filme
+                                System.out.println("Digite o id do filme que deseja remover: ");
+                                    int idFilmeR = scn.nextInt();
+
+                                    if (bd.getrFilme().excluir(idFilmeR)){
+                                        System.out.println("Filme removido com sucesso!");
+                                    } else{
+                                        System.out.println("Id do filme nao existe! Tente novamente");
+                                    }
                             case 5:
                                 //Sai da Inserção
                             break;
@@ -246,7 +352,31 @@ public class Programa {
 
                     break;
                     case 5:
-                        //Listar
+                        System.out.println("""
+                            Escolha o que quer listar:
+                                1 - Clientes
+                                2 - Jogos
+                                3 - Livros
+                                4 - Filmes
+                                5 - Voltar
+                        """);
+                        op2 = scn.nextInt();
+                        switch (op2) {
+                            case 1:
+                                System.out.println(bd.getrCliente().toString());
+                                break;
+                            case 2:
+                                System.out.println(bd.getrJogo().toString());
+                                break;
+                            case 3:
+                                System.out.println(bd.getrLivro().toString());
+                                break;
+                            case 4:
+                                System.out.println(bd.getrFilme().toString());
+                                break;
+                            default:
+                                break;
+                        }
                     break;
                     case 6:
                     //Sair
