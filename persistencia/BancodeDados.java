@@ -1,10 +1,14 @@
 package persistencia;
 
+import java.util.ArrayList;
+import modelo.Aluga;
+
 public class BancodeDados {
     private Persistente rCliente;
     private Persistente rJogo;
     private Persistente rLivro;
     private Persistente rFilme;
+    private ArrayList<Aluga> rAluga;
 
     public BancodeDados() {
         rCliente = new Persistente();
@@ -43,5 +47,13 @@ public class BancodeDados {
 
     public void setrFilme(Persistente rFilme) {
         this.rFilme = rFilme;
+    }
+
+    public ArrayList<Aluga> getrAluga() {
+        return rAluga;
+    }
+
+    public void setrAluga(ArrayList<Aluga> rAluga) {
+        this.rAluga = rAluga;
     }
 }
