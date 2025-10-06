@@ -53,7 +53,6 @@ public class Cliente extends Entidade{
     public void setEndereco(String endereco) {
         this.endereco = endereco;
     }
-
     @Override
     public String toString() {
         return "\n Nome: " + nome_do_cliente + "\n Telefone: " + telefone_do_cliente + "\n CPF: "+ cpf + "\n Endereço:" + endereco + "\n";
