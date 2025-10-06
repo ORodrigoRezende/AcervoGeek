@@ -9,7 +9,7 @@ public class Programa {
         Scanner scn = new Scanner(System.in);
         BancodeDados bd =  new BancodeDados();
         int op1=0,op2=0;
-        while(op1!=5){
+        while(op1!=6){
             System.out.println("""
                     Acervo Geek
                 
@@ -176,7 +176,7 @@ public class Programa {
                             System.out.println("Digite o id do jogo que deseja alterar: ");
                             int idJogoA = scn.nextInt();
 
-                            modelo.Jogo j = (modelo.Jogo)bd.getrLivro().buscar(idJogoA);
+                            modelo.Jogo j = (modelo.Jogo)bd.getrJogo().buscar(idJogoA);
 
                             if (j == null){
                                 System.out.println("Jogo nao encontrado!");
@@ -352,7 +352,31 @@ public class Programa {
 
                     break;
                     case 5:
-                        //Listar
+                        System.out.println("""
+                            Escolha o que quer listar:
+                                1 - Clientes
+                                2 - Jogos
+                                3 - Livros
+                                4 - Filmes
+                                5 - Voltar
+                        """);
+                        op2 = scn.nextInt();
+                        switch (op2) {
+                            case 1:
+                                System.out.println(bd.getrCliente().toString());
+                                break;
+                            case 2:
+                                System.out.println(bd.getrJogo().toString());
+                                break;
+                            case 3:
+                                System.out.println(bd.getrLivro().toString());
+                                break;
+                            case 4:
+                                System.out.println(bd.getrFilme().toString());
+                                break;
+                            default:
+                                break;
+                        }
                     break;
                     case 6:
                     //Sair
