@@ -20,6 +20,7 @@ public abstract class Entidade{
         this.id = id;
     }
 
+    @Override
     public String toString() {
         return "Id=" + id + "\n";
     }
