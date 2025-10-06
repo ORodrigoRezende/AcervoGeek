@@ -4,7 +4,6 @@ import modelo.Cliente;
 import modelo.Entidade;
 import persistencia.BancodeDados;
 
-
 public class Programa {
     public static void main(String[] args) {
         Scanner scn = new Scanner(System.in);
@@ -65,8 +64,24 @@ public class Programa {
                             // Inserção Jogo    
                         break;
                         case 3:
-                            // Inserção Livro
-                        break;
+                            System.out.println("Digite o id do livro: ");
+                            int idLivro = scn.nextInt();
+
+                            System.out.println("Digite o nome do livro: ");
+                            String nomeLivro = scn.next();
+
+                            System.out.println("Digite o genero do livro: ");
+                            String generoLivro = scn.next();
+
+                            System.out.println("Digite o valor do livro: ");
+                            float valorLivro = scn.nextFloat();
+
+                            System.out.println("Digite o autor do livro: ");
+                            String autorLivro = scn.next();
+
+                            bd.getrLivro().inserir(new modelo.Livro(nomeLivro, generoLivro, valorLivro, autorLivro, idLivro));
+
+                            break;
                         case 4:
                             // Inserção Filme
                         case 5:
@@ -129,8 +144,38 @@ public class Programa {
                             // Inserção Jogo    
                         break;
                         case 3:
-                            // Inserção Livro
-                        break;
+                            System.out.println("Digite o id do livro que deseja alterar: ");
+                            int idLivroA = scn.nextInt();
+
+                            modelo.Livro l = (modelo.Livro)bd.getrLivro().buscar(idLivroA);
+
+                            if (l == null){
+                                System.out.println("Livro nao encontrado!");
+                                break;
+                            }
+
+                            System.out.println("Se nao deseja alterar so da Enter");
+
+                            System.out.printf("Novo nome do livro: ", l.getNome());
+                            String novoNomeL = scn.nextLine();
+                            if (!novoNomeL.isEmpty()) { l.setNome(novoNomeL); }
+
+                            System.out.printf("Novo genero do livro: ", l.getGenero());
+                            String novoGeneroL = scn.nextLine();
+                            if (!novoGeneroL.isEmpty()) { l.setGenero(novoGeneroL); }
+
+                            System.out.printf("Novo valor do livro: ", l.getValor());
+                            String novoValorL = scn.nextLine();
+                            if (!novoValorL.isEmpty()) { l.setValor(Float.parseFloat(novoValorL)); }
+
+                            System.out.printf("Novo autor do livro: ", l.getAutor());
+                            String novoAutorL = scn.nextLine();
+                            if (!novoAutorL.isEmpty()) { l.setAutor(novoAutorL); }
+
+                            bd.getrLivro().alterar(l);
+                            System.out.println("Dados do livro alterados com sucesso!");
+
+                            break;
                         case 4:
                             // Inserção Filme
                         case 5:
@@ -175,8 +220,16 @@ public class Programa {
                                     // Inserção Jogo    
                                 break;
                                 case 3:
-                                    // Inserção Livro
-                                break;
+                                    System.out.println("Digite o id do livro que deseja remover: ");
+                                    int idLivroR = scn.nextInt();
+
+                                    if (bd.getrLivro().excluir(idLivroR)){
+                                        System.out.println("Livro removido com sucesso!");
+                                    } else{
+                                        System.out.println("Id do livro nao existe! Tente novamente");
+                                    }
+                                    
+                                    break;
                             case 4:
                                 // Inserção Filme
                             case 5:
