@@ -1,7 +1,12 @@
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Scanner;
+
+import modelo.Aluga;
 import modelo.Cliente;
 import modelo.Entidade;
+import modelo.ItensAluga;
 import persistencia.BancodeDados;
 
 public class Programa {
@@ -345,11 +350,107 @@ public class Programa {
                                 break;
                     }
                     case 4:
+                        int idAluguel;
+                        boolean idValido;
+                        do {
+                            idValido = true;
+                            System.out.println("Digite o ID do aluguel: ");
+                            idAluguel = scn.nextInt();
 
-                    // Venda Alguem faz;
+                            if (bd.getrAluga() != null) {
+                                for (Aluga a : bd.getrAluga()) {
+                                    if (a.getId() == idAluguel) {
+                                        System.out.println("ID já existente! Escolha outro.");
+                                        idValido = false;
+                                        break;
+                                    }
+                                }
+                            }
+                        } while (!idValido);
 
+                        System.out.println("Digite o ID do cliente que fará o aluguel: ");
+                        int idCliente = scn.nextInt();
+                        Cliente clienteAluga = null;
 
+                        for (Entidade c : bd.getrCliente()) {
+                            if (c.getId() == idCliente) {
+                                clienteAluga = c;
+                                break;
+                            }
+                        }
 
+                        if (clienteAluga == null) {
+                            System.out.println("Cliente não encontrado!");
+                            break;
+                        }
+
+                        LocalDate dataAluguel = LocalDate.now();
+                        System.out.println("Digite a quantidade de dias para devolução: ");
+                        int diasAluguel = scn.nextInt();
+                        LocalDate dataDevolucao = dataAluguel.plusDays(diasAluguel);
+
+                        Aluga aluguel = new Aluga(idAluguel, clienteAluga, dataAluguel, dataDevolucao);
+
+                    
+                        int opItem = 0;
+                        while (opItem != 4) {
+                            System.out.println("""
+                                Escolha o tipo de item para alugar:
+                                1 - Jogo
+                                2 - Livro
+                                3 - Filme
+                                4 - Finalizar seleção
+                            """);
+                            opItem = scn.nextInt();
+
+                            if (opItem == 4) break;
+
+                            System.out.println("Digite o ID do item: ");
+                            int idItem = scn.nextInt();
+                            Entidade item = null;
+
+                            switch (opItem) {
+                                case 1 -> {
+                                    //Alguem faz o método de busca pra filme, livro e jogo
+                                    System.out.println("Busca de Jogo não implementada ainda.");
+                                }
+                                case 2 -> {
+                                    System.out.println("Busca de Livro não implementada ainda.");
+                                }
+                                case 3 -> {
+                                    System.out.println("Busca de Filme não implementada ainda.");
+                                }
+                                default -> {
+                                    System.out.println("Opção inválida!");
+                                    continue;
+                                }
+                            }
+
+                            if (item == null) {
+                                System.out.println("Item não encontrado!");
+                                continue;
+                            }
+
+                            System.out.println("Digite a quantidade de dias para este item: ");
+                            int diasItem = scn.nextInt();
+
+                            System.out.println("Digite o valor do aluguel deste item: ");
+                            double valorItem = scn.nextDouble();
+
+                            int idItemAluga = aluguel.getItens().size() + 1;
+                            ItensAluga itemAlugado = new ItensAluga(idItemAluga, item, diasItem, valorItem);
+                            aluguel.adicionarItem(itemAlugado);
+
+                            System.out.println("Item adicionado ao aluguel!");
+                        }
+
+                        if (bd.getrAluga() == null) {
+                            bd.setrAluga(new ArrayList<>());
+                        }
+                        bd.getrAluga().add(aluguel);
+
+                        System.out.println("\nAluguel registrado com sucesso!");
+                        System.out.println(aluguel);
                     break;
                     case 5:
                         System.out.println("""
