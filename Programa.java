@@ -2,11 +2,13 @@
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
-
 import modelo.Aluga;
 import modelo.Cliente;
 import modelo.Entidade;
+import modelo.Filme;
 import modelo.ItensAluga;
+import modelo.Jogo;
+import modelo.Livro;
 import persistencia.BancodeDados;
 
 public class Programa {
@@ -46,15 +48,9 @@ public class Programa {
                 op2 = scn.nextInt();
                     switch (op2) {
                         case 1:
-                            Entidade d;
                             int id;
-                            //do { 
                             System.out.println("Digite o id do cliente: ");
                             id = scn.nextInt();
-                            /*if(getCliente(id)!=null){
-                                System.out.println("Id do cliente já existe!, Tente novamente");
-                                }else idT = false;
-                            } while (idT); // Verificar se tem outro cliente com mesmo id; */
                             System.out.println("Digite o nome do cliente: ");
                             String nome = scn.next();
                             System.out.println("Digite o telefone do cliente: ");
@@ -81,7 +77,7 @@ public class Programa {
                             System.out.println("Digite o autor do jogo: ");
                             String desenvolvedorJogo = scn.next();
 
-                            bd.getrJogo().inserir(new modelo.Jogo(desenvolvedorJogo, nomeJogo, generoJogo, valorJogo, idJogo));
+                            bd.getrJogo().inserir(new Jogo(desenvolvedorJogo, nomeJogo, generoJogo, valorJogo, idJogo));
     
                         break;
                         case 3:
@@ -100,7 +96,7 @@ public class Programa {
                             System.out.println("Digite o autor do livro: ");
                             String autorLivro = scn.next();
 
-                            bd.getrLivro().inserir(new modelo.Livro(nomeLivro, generoLivro, valorLivro, autorLivro, idLivro));
+                            bd.getrLivro().inserir(new Livro(nomeLivro, generoLivro, valorLivro, autorLivro, idLivro));
 
                             break;
                         case 4:
@@ -119,13 +115,13 @@ public class Programa {
                             System.out.println("Digite o autor do filme: ");
                             String diretorFilme = scn.next();
 
-                            bd.getrFilme().inserir(new modelo.Filme(diretorFilme,nomeFilme, generoFilme, valorFilme, idFilme));
+                            bd.getrFilme().inserir(new Filme(diretorFilme,nomeFilme, generoFilme, valorFilme, idFilme));
 
                         case 5:
                             //Sai da Inserção
                         break;
                     default:
-                        System.out.println("Numero Invalido!");
+                        System.out.println("Opção Invalida!");
                     break;
                 }
                 break;
@@ -145,43 +141,43 @@ public class Programa {
                     """);
                 op2 = scn.nextInt();
                     switch (op2) {
-                        case 1:/*
-                            boolean idT=true;
-                            Entidade c;
-                            int id;
-                            do { 
-                                System.out.println("Digite o id do cliente que deseja alterar: ");
-                                id = scn.nextInt();
-                                scn.nextLine();
-                                c = getEntidade(id);
-                                if(c==null){
-                                    System.out.println("Id do cliente não existe!, Tente novamente");
-                                }else idT = false;
-                            } while (idT); // Verifica se tem outro cliente com mesmo id;
+                        case 1:
+                            System.out.println("Digite o id do Cliente que deseja alterar: ");
+                            int idC = scn.nextInt();
 
-                            System.out.println("Se não deseja alterar so da Enter ;)\n");
+                            Cliente c = (Cliente)bd.getrJogo().buscar(idC);
 
-                            System.out.printf("Digite o nome do cliente: %s\n",c.getNome_do_cliente());
-                            String nome = scn.nextLine();
-                            if(!nome.isEmpty()) c.setNome_do_cliente(nome);
+                            if (c == null){
+                                System.out.println("Cliente nao encontrado!");
+                                break;
+                            }
 
-                            System.out.printf("Digite o telefone do cliente: %s\n",c.getTelefone_do_cliente());
-                            String telefone = scn.nextLine();
-                            if(!telefone.isEmpty()) c.setTelefone_do_cliente(telefone);
+                            System.out.println("Se nao deseja alterar so da Enter");
 
-                            System.out.printf("Digite o cpf do cliente: %s\n",c.getCpf());
-                            String cpf = scn.nextLine();
-                            if(!cpf.isEmpty())c.setCpf(cpf);
+                            System.out.printf("Novo nome do Cliente: ", c.getNome_do_cliente());
+                            String novoNomec = scn.nextLine();
+                            if (!novoNomec.isEmpty()) { c.setNome_do_cliente(novoNomec); }
 
-                            System.out.printf("Digite o endereço do cliente: %s\n",c.getEndereco());
-                            String endereco = scn.nextLine();
-                            if(!endereco.isEmpty())c.setEndereco(endereco);*/
+                            System.out.printf("Novo Telfone do Cliente: ", c.getTelefone_do_cliente());
+                            String novoTelefone = scn.nextLine();
+                            if (!novoTelefone.isEmpty()) { c.setTelefone_do_cliente(novoTelefone); }
+
+                            System.out.printf("Novo CPF do Cliente: ", c.getCpf());
+                            String novocpf = scn.nextLine();
+                            if (!novocpf.isEmpty()) { c.setCpf(novocpf);}
+
+                            System.out.printf("Novo Entedereço do Cliente: ", c.getEndereco());
+                            String novoEndereco = scn.nextLine();
+                            if (!novoEndereco.isEmpty()) { c.setEndereco(novoEndereco); }
+
+                            bd.getrCliente().alterar(c);
+                            System.out.println("Dados do Cliente alterados com sucesso!");
                             break;
                         case 2:
                             System.out.println("Digite o id do jogo que deseja alterar: ");
                             int idJogoA = scn.nextInt();
 
-                            modelo.Jogo j = (modelo.Jogo)bd.getrJogo().buscar(idJogoA);
+                            Jogo j = (Jogo)bd.getrJogo().buscar(idJogoA);
 
                             if (j == null){
                                 System.out.println("Jogo nao encontrado!");
@@ -214,7 +210,7 @@ public class Programa {
                             System.out.println("Digite o id do livro que deseja alterar: ");
                             int idLivroA = scn.nextInt();
 
-                            modelo.Livro l = (modelo.Livro)bd.getrLivro().buscar(idLivroA);
+                            Livro l = (Livro)bd.getrLivro().buscar(idLivroA);
 
                             if (l == null){
                                 System.out.println("Livro nao encontrado!");
@@ -247,7 +243,7 @@ public class Programa {
                             System.out.println("Digite o id do filme que deseja alterar: ");
                             int idFilmeA = scn.nextInt();
 
-                            modelo.Filme f = (modelo.Filme)bd.getrFilme().buscar(idFilmeA);
+                            Filme f = (Filme)bd.getrFilme().buscar(idFilmeA);
 
                             if (f == null){
                                 System.out.println("Filme nao encontrado!");
@@ -297,22 +293,15 @@ public class Programa {
                         op2 = scn.nextInt();
                             switch (op2) {
                                 case 1:
-                                /* 
-                                    boolean idT=true;
-                                    Entidade c;
-                                    int id;
-                                    do { 
-                                        System.out.println("Digite o id do cliente que deseja remover: ");
-                                        id = scn.nextInt();
-                                        scn.nextLine();
-                                        c = getEntidade(id);
-                                        if(c==null){
-                                            System.out.println("Id do cliente não existe!, Tente novamente");
-                                        }else idT = false;
-                                    } while (idT); // Verifica se tem outro cliente com mesmo id;
-                                    
-                                    bd.getrCliente().excluir(id);*/
-                                    break;
+                                    System.out.println("Digite o id do Cliente que deseja remover: ");
+                                    int idC = scn.nextInt();
+
+                                    if (bd.getrJogo().excluir(idC)){
+                                        System.out.println("Cliente removido com sucesso!");
+                                    } else{
+                                        System.out.println("Id do Cliente nao existe! Tente novamente");
+                                    }    
+                                break;
                                 case 2:
                                     System.out.println("Digite o id do jogo que deseja remover: ");
                                     int idJogoR = scn.nextInt();
@@ -372,13 +361,11 @@ public class Programa {
                         int idCliente = scn.nextInt();
                         Cliente clienteAluga = null;
 
-                        for (Entidade c : bd.getrCliente()) {
-                            if (c.getId() == idCliente) {
-                                clienteAluga = c;
-                                break;
-                            }
-                        }
+                        Entidade entidadeEncontrada = bd.getrCliente().buscar(idCliente);
 
+                        if (entidadeEncontrada instanceof Cliente) {
+                            clienteAluga = (Cliente) entidadeEncontrada;
+                        }
                         if (clienteAluga == null) {
                             System.out.println("Cliente não encontrado!");
                             break;
@@ -395,11 +382,12 @@ public class Programa {
                         int opItem = 0;
                         while (opItem != 4) {
                             System.out.println("""
-                                Escolha o tipo de item para alugar:
-                                1 - Jogo
-                                2 - Livro
-                                3 - Filme
-                                4 - Finalizar seleção
+                            Escolha o tipo de item para alugar:
+
+                            1 - Jogo
+                            2 - Livro
+                            3 - Filme
+                            4 - Finalizar seleção
                             """);
                             opItem = scn.nextInt();
 
@@ -409,21 +397,19 @@ public class Programa {
                             int idItem = scn.nextInt();
                             Entidade item = null;
 
-                            switch (opItem) {
-                                case 1 -> {
-                                    //Alguem faz o método de busca pra filme, livro e jogo
-                                    System.out.println("Busca de Jogo não implementada ainda.");
-                                }
-                                case 2 -> {
-                                    System.out.println("Busca de Livro não implementada ainda.");
-                                }
-                                case 3 -> {
-                                    System.out.println("Busca de Filme não implementada ainda.");
-                                }
-                                default -> {
-                                    System.out.println("Opção inválida!");
-                                    continue;
-                                }
+                            switch (op2) {
+                                case 1:
+                                    System.out.println(bd.getrJogo().toString());
+                                    break;
+                                case 2:
+                                    System.out.println(bd.getrLivro().toString());
+                                    break;
+                                case 3:
+                                    System.out.println(bd.getrFilme().toString());
+                                    break;
+                                default:
+                                    System.out.println("Opcao Invalida");
+                                    break;
                             }
 
                             if (item == null) {
@@ -454,12 +440,14 @@ public class Programa {
                     break;
                     case 5:
                         System.out.println("""
-                            Escolha o que quer listar:
-                                1 - Clientes
-                                2 - Jogos
-                                3 - Livros
-                                4 - Filmes
-                                5 - Voltar
+                        Escolha o que quer listar:
+
+                        1 - Clientes
+                        2 - Jogos
+                        3 - Livros
+                        4 - Filmes
+                        5 - Voltar
+
                         """);
                         op2 = scn.nextInt();
                         switch (op2) {
