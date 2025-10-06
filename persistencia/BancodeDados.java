@@ -1,54 +1,47 @@
 package persistencia;
 
-import java.util.ArrayList;
-import modelo.Cliente;
-import modelo.Jogo;
-
-
 public class BancodeDados {
-    private ArrayList<Cliente> rCliente;
-    private ArrayList<Jogo> rJogo;
-    private ArrayList<Livro> rLivro;
-    private ArrayList<Filme> rFilme;
-     
-    public BancodeDados(){
-        rCliente = new ArrayList<>();
-        rJogo = new ArrayList<>();
-        rLivro = new ArrayList<>();
-        rFilme =  new ArrayList<>();
+    private Persistente rCliente;
+    private Persistente rJogo;
+    private Persistente rLivro;
+    private Persistente rFilme;
+
+    public BancodeDados() {
+        rCliente = new Persistente();
+        rFilme = new Persistente();
+        rJogo = new Persistente();
+        rLivro = new Persistente();
     }
 
-    public ArrayList<Cliente> getrCliente() {
+    public Persistente getrCliente() {
         return rCliente;
     }
 
-    public void setrCliente(ArrayList<Cliente> rCliente) {
+    public void setrCliente(Persistente rCliente) {
         this.rCliente = rCliente;
     }
 
-    public ArrayList<Jogo> getrJogo() {
+    public Persistente getrJogo() {
         return rJogo;
     }
 
-    public void setrJogo(ArrayList<Jogo> rJogo) {
+    public void setrJogo(Persistente rJogo) {
         this.rJogo = rJogo;
     }
 
-    public ArrayList<Livro> getrLivro() {
+    public Persistente getrLivro() {
         return rLivro;
     }
 
-    public void setrLivro(ArrayList<Livro> rLivro) {
+    public void setrLivro(Persistente rLivro) {
         this.rLivro = rLivro;
     }
 
-    public ArrayList<Filme> getrFilme() {
+    public Persistente getrFilme() {
         return rFilme;
     }
 
-    public void setrFilme(ArrayList<Filme> rFilme) {
+    public void setrFilme(Persistente rFilme) {
         this.rFilme = rFilme;
     }
-    
-
 }
