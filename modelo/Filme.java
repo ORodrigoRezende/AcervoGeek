@@ -46,7 +46,7 @@ public class Filme extends Entidade{
         this.valor = valor;
     }
 
-    public String getDesenvolvedor() {
+    public String getDiretor() {
         return diretor;
     }
 
