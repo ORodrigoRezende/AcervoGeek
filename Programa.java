@@ -28,7 +28,6 @@ public class Programa {
                 4 - Alugar
                 5 - Listar
                 6 - Sair
-
                     """);
             op1 = scn.nextInt();
             switch (op1) {
@@ -43,7 +42,6 @@ public class Programa {
                 3 - Livro
                 4 - Filme
                 5 - Voltar
-                
                     """);
                 op2 = scn.nextInt();
                     switch (op2) {
@@ -160,7 +158,7 @@ public class Programa {
                             int idC = scn.nextInt();
                             scn.nextLine();
 
-                            Cliente c = (Cliente)bd.getrJogo().buscar(idC);
+                            Cliente c = (Cliente)bd.getrCliente().buscar(idC);
 
                             if (c == null){
                                 System.out.println("Cliente nao encontrado!");
@@ -452,6 +450,26 @@ public class Programa {
                                     System.out.println("Opcao Invalida");
                                     break;
                             }
+
+                            System.out.println("Digite o ID do item: ");
+                            int idItem = scn.nextInt();
+                            Entidade item = null;
+
+                            switch (opItem) {
+                                case 1:
+                                    item = bd.getrJogo().buscar(idItem);
+                                    break;
+                                case 2:
+                                    item = bd.getrLivro().buscar(idItem);
+                                    break;
+                                case 3:
+                                    item = bd.getrFilme().buscar(idItem);
+                                    break;
+                                default:
+                                break;
+                            }
+                                 
+                            
 
                             if (item == null) {
                                 System.out.println("Item não encontrado!");
