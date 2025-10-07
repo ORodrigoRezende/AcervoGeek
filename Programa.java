@@ -14,8 +14,11 @@ import persistencia.BancodeDados;
 public class Programa {
     public static void main(String[] args) {
         Scanner scn = new Scanner(System.in);
-        BancodeDados bd =  new BancodeDados();
+        BancodeDados bd = new BancodeDados();
         int op1=0,op2=0;
+        if (bd.getrAluga() == null) {
+            bd.setrAluga(new ArrayList<>());
+        }
         while(op1!=6){
             System.out.println("""
                     Acervo Geek
@@ -85,7 +88,7 @@ public class Programa {
 
                             bd.getrJogo().inserir(new Jogo(desenvolvedorJogo, nomeJogo, generoJogo, valorJogo, idJogo));
     
-                        break;
+                            break;
                         case 3:
                             System.out.println("Digite o id do livro: ");
                             int idLivro = scn.nextInt();
@@ -126,13 +129,15 @@ public class Programa {
                             String diretorFilme = scn.nextLine();
 
                             bd.getrFilme().inserir(new Filme(diretorFilme,nomeFilme, generoFilme, valorFilme, idFilme));
+                            
+                            break;
 
                         case 5:
                             //Sai da Inserção
-                        break;
-                    default:
-                        System.out.println("Opção Invalida!");
-                    break;
+                            break;
+                        default:
+                            System.out.println("Opção Invalida!");
+                            break;
                 }
                 break;
                         
@@ -167,24 +172,25 @@ public class Programa {
 
                             System.out.println("Se nao deseja alterar so da Enter");
 
-                            System.out.printf("Novo nome do Cliente: ", c.getNome_do_cliente());
+                            System.out.println("Novo nome do Cliente (" + c.getNome_do_cliente() + "): ");
                             String novoNomec = scn.nextLine();
                             if (!novoNomec.isEmpty()) { c.setNome_do_cliente(novoNomec); }
 
-                            System.out.printf("Novo Telfone do Cliente: ", c.getTelefone_do_cliente());
+                            System.out.println("Novo Telefone do Cliente (" + c.getTelefone_do_cliente() + "): ");
                             String novoTelefone = scn.nextLine();
                             if (!novoTelefone.isEmpty()) { c.setTelefone_do_cliente(novoTelefone); }
 
-                            System.out.printf("Novo CPF do Cliente: ", c.getCpf());
+                            System.out.println("Novo CPF do Cliente (" + c.getCpf() + "): ");
                             String novocpf = scn.nextLine();
-                            if (!novocpf.isEmpty()) { c.setCpf(novocpf);}
+                            if (!novocpf.isEmpty()) { c.setCpf(novocpf); }
 
-                            System.out.printf("Novo Entedereço do Cliente: ", c.getEndereco());
+                            System.out.println("Novo Endereço do Cliente (" + c.getEndereco() + "): ");
                             String novoEndereco = scn.nextLine();
                             if (!novoEndereco.isEmpty()) { c.setEndereco(novoEndereco); }
 
                             bd.getrCliente().alterar(c);
                             System.out.println("Dados do Cliente alterados com sucesso!");
+                            
                             break;
                         case 2:
                             System.out.println("=== Jogos cadastrados ===");
@@ -293,12 +299,15 @@ public class Programa {
                             bd.getrFilme().alterar(f);
                             System.out.println("Dados do filme alterados com sucesso!");
 
+                            break;
+
                         case 5:
                             //Sai da Inserção
                         break;
                         default:
                             break;
-                    } break;
+                        }
+                    break;
                 case 3:
                         System.out.println("""
                         Acervo Geek
@@ -321,7 +330,7 @@ public class Programa {
                                     int idC = scn.nextInt();
                                     scn.nextLine();
 
-                                    if (bd.getrJogo().excluir(idC)){
+                                    if (bd.getrCliente().excluir(idC)){
                                         System.out.println("Cliente removido com sucesso!");
                                     } else{
                                         System.out.println("Id do Cliente nao existe! Tente novamente");
@@ -366,12 +375,15 @@ public class Programa {
                                     } else{
                                         System.out.println("Id do filme nao existe! Tente novamente");
                                     }
+
+                                break;
                             case 5:
                                 //Sai da Inserção
                             break;
                             default:
                                 break;
                     }
+                    break;
                     case 4:
                         int idAluguel;
                         boolean idValido;
@@ -431,12 +443,12 @@ public class Programa {
 
                             if (opItem == 4) break;
 
-                            System.out.println("Digite o ID do item: ");
-                            int idItem = scn.nextInt();
-                            scn.nextLine();
-                            Entidade item = null;
+                            // System.out.println("Digite o ID do item: ");
+                            // int idItem = scn.nextInt();
+                            // scn.nextLine();
+                            // Entidade item = null;
 
-                            switch (op2) {
+                            switch (opItem) {
                                 case 1:
                                     System.out.println(bd.getrJogo().toString());
                                     break;
@@ -529,10 +541,11 @@ public class Programa {
                     break;
                     case 6:
                     //Sair
+                    System.out.println("Agradecemos por usar o Acervo Geek! Ate logo!");
                     break;
                     default:
-                        System.out.println("Entrada Invalida");
-                    break;
+                        System.out.println("Entrada Invalida!");
+                        break;
             }
         }
     }
