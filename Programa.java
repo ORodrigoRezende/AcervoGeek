@@ -28,7 +28,6 @@ public class Programa {
                 4 - Alugar
                 5 - Listar
                 6 - Sair
-
                     """);
             op1 = scn.nextInt();
             switch (op1) {
@@ -43,77 +42,76 @@ public class Programa {
                 3 - Livro
                 4 - Filme
                 5 - Voltar
-                
                     """);
                 op2 = scn.nextInt();
                     switch (op2) {
                         case 1:
                             int id;
                             System.out.println("Digite o id do cliente: ");
-                            id = scn.nextInt();
+                            id = scn.nextInt();scn.nextLine();
                             System.out.println("Digite o nome do cliente: ");
-                            String nome = scn.next();
+                            String nome = scn.nextLine();
                             System.out.println("Digite o telefone do cliente: ");
-                            String telefone = scn.next();
+                            String telefone = scn.nextLine();
                             System.out.println("Digite o cpf do cliente: ");
-                            String cpf = scn.next();
+                            String cpf = scn.nextLine();
                             System.out.println("Digite o endereço do cliente: ");
-                            String endereco = scn.next();
+                            String endereco = scn.nextLine();
                             bd.getrCliente().inserir(new Cliente(id,nome,telefone,cpf,endereco));
                             break;
                         case 2:
                             System.out.println("Digite o id do jogo: ");
-                            int idJogo = scn.nextInt();
+                            int idJogo = scn.nextInt();scn.nextLine();
 
                             System.out.println("Digite o nome do jogo: ");
-                            String nomeJogo = scn.next();
+                            String nomeJogo = scn.nextLine();
 
                             System.out.println("Digite o genero do jogo: ");
-                            String generoJogo = scn.next();
+                            String generoJogo = scn.nextLine();
 
                             System.out.println("Digite o valor do jogo: ");
-                            float valorJogo = scn.nextFloat();
+                            float valorJogo = scn.nextFloat();scn.nextLine();
 
                             System.out.println("Digite o autor do jogo: ");
-                            String desenvolvedorJogo = scn.next();
+                            String desenvolvedorJogo = scn.nextLine();
 
                             bd.getrJogo().inserir(new Jogo(desenvolvedorJogo, nomeJogo, generoJogo, valorJogo, idJogo));
     
                         break;
                         case 3:
                             System.out.println("Digite o id do livro: ");
-                            int idLivro = scn.nextInt();
+                            int idLivro = scn.nextInt();scn.nextLine();
 
                             System.out.println("Digite o nome do livro: ");
-                            String nomeLivro = scn.next();
+                            String nomeLivro = scn.nextLine();
 
                             System.out.println("Digite o genero do livro: ");
-                            String generoLivro = scn.next();
+                            String generoLivro = scn.nextLine();
 
                             System.out.println("Digite o valor do livro: ");
-                            float valorLivro = scn.nextFloat();
+                            float valorLivro = scn.nextFloat();scn.nextLine();
 
                             System.out.println("Digite o autor do livro: ");
-                            String autorLivro = scn.next();
+                            String autorLivro = scn.nextLine();
 
                             bd.getrLivro().inserir(new Livro(nomeLivro, generoLivro, valorLivro, autorLivro, idLivro));
 
                             break;
                         case 4:
                             System.out.println("Digite o id do filme: ");
-                            int idFilme = scn.nextInt();
+                            int idFilme = scn.nextInt();scn.nextLine();
 
                             System.out.println("Digite o nome do filme: ");
-                            String nomeFilme = scn.next();
+                            String nomeFilme = scn.nextLine();
 
                             System.out.println("Digite o genero do filme: ");
-                            String generoFilme = scn.next();
+                            String generoFilme = scn.nextLine();
 
                             System.out.println("Digite o valor do filme: ");
-                            float valorFilme = scn.nextFloat();
+                            float valorFilme = scn.nextFloat();scn.nextLine();
 
                             System.out.println("Digite o autor do filme: ");
-                            String diretorFilme = scn.next();
+                            String diretorFilme = scn.nextLine();
 
                             bd.getrFilme().inserir(new Filme(diretorFilme,nomeFilme, generoFilme, valorFilme, idFilme));
 
@@ -143,7 +141,7 @@ public class Programa {
                     switch (op2) {
                         case 1:
                             System.out.println("Digite o id do Cliente que deseja alterar: ");
-                            int idC = scn.nextInt();
+                            int idC = scn.nextInt();scn.nextLine();
 
                             Cliente c = (Cliente)bd.getrJogo().buscar(idC);
 
@@ -175,7 +173,7 @@ public class Programa {
                             break;
                         case 2:
                             System.out.println("Digite o id do jogo que deseja alterar: ");
-                            int idJogoA = scn.nextInt();
+                            int idJogoA = scn.nextInt();scn.nextLine();
 
                             Jogo j = (Jogo)bd.getrJogo().buscar(idJogoA);
 
@@ -208,7 +206,7 @@ public class Programa {
                         break;
                         case 3:
                             System.out.println("Digite o id do livro que deseja alterar: ");
-                            int idLivroA = scn.nextInt();
+                            int idLivroA = scn.nextInt();scn.nextLine();
 
                             Livro l = (Livro)bd.getrLivro().buscar(idLivroA);
 
@@ -241,7 +239,7 @@ public class Programa {
                             break;
                         case 4:
                             System.out.println("Digite o id do filme que deseja alterar: ");
-                            int idFilmeA = scn.nextInt();
+                            int idFilmeA = scn.nextInt();scn.nextLine();
 
                             Filme f = (Filme)bd.getrFilme().buscar(idFilmeA);
 

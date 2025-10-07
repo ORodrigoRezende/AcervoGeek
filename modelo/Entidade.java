@@ -22,6 +22,6 @@ public abstract class Entidade{
 
     @Override
     public String toString() {
-        return "Id: " + id + "\n";
+        return "\n Id: " + id;
     }
 }
