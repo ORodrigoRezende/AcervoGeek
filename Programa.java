@@ -48,20 +48,27 @@ public class Programa {
                         case 1:
                             int id;
                             System.out.println("Digite o id do cliente: ");
-                            id = scn.nextInt();scn.nextLine();
+                            id = scn.nextInt();
+                            scn.nextLine();
+
                             System.out.println("Digite o nome do cliente: ");
                             String nome = scn.nextLine();
+
                             System.out.println("Digite o telefone do cliente: ");
                             String telefone = scn.nextLine();
+
                             System.out.println("Digite o cpf do cliente: ");
                             String cpf = scn.nextLine();
+
                             System.out.println("Digite o endereço do cliente: ");
                             String endereco = scn.nextLine();
+
                             bd.getrCliente().inserir(new Cliente(id,nome,telefone,cpf,endereco));
                             break;
                         case 2:
                             System.out.println("Digite o id do jogo: ");
-                            int idJogo = scn.nextInt();scn.nextLine();
+                            int idJogo = scn.nextInt();
+                            scn.nextLine();
 
                             System.out.println("Digite o nome do jogo: ");
                             String nomeJogo = scn.nextLine();
@@ -70,9 +77,10 @@ public class Programa {
                             String generoJogo = scn.nextLine();
 
                             System.out.println("Digite o valor do jogo: ");
-                            float valorJogo = scn.nextFloat();scn.nextLine();
+                            float valorJogo = scn.nextFloat();
+                            scn.nextLine();
 
-                            System.out.println("Digite o autor do jogo: ");
+                            System.out.println("Digite o desenvolvedor do jogo: ");
                             String desenvolvedorJogo = scn.nextLine();
 
                             bd.getrJogo().inserir(new Jogo(desenvolvedorJogo, nomeJogo, generoJogo, valorJogo, idJogo));
@@ -80,7 +88,8 @@ public class Programa {
                         break;
                         case 3:
                             System.out.println("Digite o id do livro: ");
-                            int idLivro = scn.nextInt();scn.nextLine();
+                            int idLivro = scn.nextInt();
+                            scn.nextLine();
 
                             System.out.println("Digite o nome do livro: ");
                             String nomeLivro = scn.nextLine();
@@ -89,7 +98,8 @@ public class Programa {
                             String generoLivro = scn.nextLine();
 
                             System.out.println("Digite o valor do livro: ");
-                            float valorLivro = scn.nextFloat();scn.nextLine();
+                            float valorLivro = scn.nextFloat();
+                            scn.nextLine();
 
                             System.out.println("Digite o autor do livro: ");
                             String autorLivro = scn.nextLine();
@@ -99,7 +109,8 @@ public class Programa {
                             break;
                         case 4:
                             System.out.println("Digite o id do filme: ");
-                            int idFilme = scn.nextInt();scn.nextLine();
+                            int idFilme = scn.nextInt();
+                            scn.nextLine();
 
                             System.out.println("Digite o nome do filme: ");
                             String nomeFilme = scn.nextLine();
@@ -108,9 +119,10 @@ public class Programa {
                             String generoFilme = scn.nextLine();
 
                             System.out.println("Digite o valor do filme: ");
-                            float valorFilme = scn.nextFloat();scn.nextLine();
+                            float valorFilme = scn.nextFloat();
+                            scn.nextLine();
 
-                            System.out.println("Digite o autor do filme: ");
+                            System.out.println("Digite o diretor do filme: ");
                             String diretorFilme = scn.nextLine();
 
                             bd.getrFilme().inserir(new Filme(diretorFilme,nomeFilme, generoFilme, valorFilme, idFilme));
@@ -140,8 +152,11 @@ public class Programa {
                 op2 = scn.nextInt();
                     switch (op2) {
                         case 1:
+                            System.out.println("=== Clientes cadastrados ===");
+                            System.out.println(bd.getrCliente().toString());
                             System.out.println("Digite o id do Cliente que deseja alterar: ");
-                            int idC = scn.nextInt();scn.nextLine();
+                            int idC = scn.nextInt();
+                            scn.nextLine();
 
                             Cliente c = (Cliente)bd.getrCliente().buscar(idC);
 
@@ -172,8 +187,11 @@ public class Programa {
                             System.out.println("Dados do Cliente alterados com sucesso!");
                             break;
                         case 2:
+                            System.out.println("=== Jogos cadastrados ===");
+                            System.out.println(bd.getrJogo().toString());
                             System.out.println("Digite o id do jogo que deseja alterar: ");
-                            int idJogoA = scn.nextInt();scn.nextLine();
+                            int idJogoA = scn.nextInt();
+                            scn.nextLine();
 
                             Jogo j = (Jogo)bd.getrJogo().buscar(idJogoA);
 
@@ -196,7 +214,7 @@ public class Programa {
                             String novoValorJ = scn.nextLine();
                             if (!novoValorJ.isEmpty()) { j.setValor(Float.parseFloat(novoValorJ)); }
 
-                            System.out.printf("Novo autor do jogo: ", j.getDesenvolvedor());
+                            System.out.printf("Novo desenvolvedor do jogo: ", j.getDesenvolvedor());
                             String novoAutorJ = scn.nextLine();
                             if (!novoAutorJ.isEmpty()) { j.setDesenvolvedor(novoAutorJ); }
 
@@ -205,8 +223,11 @@ public class Programa {
     
                         break;
                         case 3:
+                            System.out.println("=== Livros cadastrados ===");
+                            System.out.println(bd.getrLivro().toString());
                             System.out.println("Digite o id do livro que deseja alterar: ");
-                            int idLivroA = scn.nextInt();scn.nextLine();
+                            int idLivroA = scn.nextInt();
+                            scn.nextLine();
 
                             Livro l = (Livro)bd.getrLivro().buscar(idLivroA);
 
@@ -238,8 +259,11 @@ public class Programa {
 
                             break;
                         case 4:
+                            System.out.println("=== Filmes cadastrados ===");
+                            System.out.println(bd.getrFilme().toString());
                             System.out.println("Digite o id do filme que deseja alterar: ");
-                            int idFilmeA = scn.nextInt();scn.nextLine();
+                            int idFilmeA = scn.nextInt();
+                            scn.nextLine();
 
                             Filme f = (Filme)bd.getrFilme().buscar(idFilmeA);
 
@@ -262,7 +286,7 @@ public class Programa {
                             String novoValorF = scn.nextLine();
                             if (!novoValorF.isEmpty()) { f.setValor(Float.parseFloat(novoValorF)); }
 
-                            System.out.printf("Novo autor do filme: ", f.getDiretor());
+                            System.out.printf("Novo diretor do filme: ", f.getDiretor());
                             String novoDiretorF = scn.nextLine();
                             if (!novoDiretorF.isEmpty()) { f.setDiretor(novoDiretorF); }
 
@@ -291,8 +315,11 @@ public class Programa {
                         op2 = scn.nextInt();
                             switch (op2) {
                                 case 1:
+                                    System.out.println("=== Clientes cadastrados ===");
+                                    System.out.println(bd.getrCliente().toString());
                                     System.out.println("Digite o id do Cliente que deseja remover: ");
                                     int idC = scn.nextInt();
+                                    scn.nextLine();
 
                                     if (bd.getrJogo().excluir(idC)){
                                         System.out.println("Cliente removido com sucesso!");
@@ -301,8 +328,11 @@ public class Programa {
                                     }    
                                 break;
                                 case 2:
+                                    System.out.println("=== Jogos cadastrados ===");
+                                    System.out.println(bd.getrJogo().toString());
                                     System.out.println("Digite o id do jogo que deseja remover: ");
                                     int idJogoR = scn.nextInt();
+                                    scn.nextLine(); 
 
                                     if (bd.getrJogo().excluir(idJogoR)){
                                         System.out.println("Jogo removido com sucesso!");
@@ -311,8 +341,11 @@ public class Programa {
                                     }    
                                 break;
                                 case 3:
+                                    System.out.println("=== Livros cadastrados ===");
+                                    System.out.println(bd.getrLivro().toString());   
                                     System.out.println("Digite o id do livro que deseja remover: ");
                                     int idLivroR = scn.nextInt();
+                                    scn.nextLine();
 
                                     if (bd.getrLivro().excluir(idLivroR)){
                                         System.out.println("Livro removido com sucesso!");
@@ -322,8 +355,11 @@ public class Programa {
                                     
                                     break;
                             case 4:
+                                System.out.println("=== Filmes cadastrados ===");
+                                System.out.println(bd.getrFilme().toString());
                                 System.out.println("Digite o id do filme que deseja remover: ");
                                     int idFilmeR = scn.nextInt();
+                                    scn.nextLine();
 
                                     if (bd.getrFilme().excluir(idFilmeR)){
                                         System.out.println("Filme removido com sucesso!");
@@ -343,6 +379,7 @@ public class Programa {
                             idValido = true;
                             System.out.println("Digite o ID do aluguel: ");
                             idAluguel = scn.nextInt();
+                            scn.nextLine();
 
                             if (bd.getrAluga() != null) {
                                 for (Aluga a : bd.getrAluga()) {
@@ -357,6 +394,7 @@ public class Programa {
 
                         System.out.println("Digite o ID do cliente que fará o aluguel: ");
                         int idCliente = scn.nextInt();
+                        scn.nextLine();
                         Cliente clienteAluga = null;
 
                         Entidade entidadeEncontrada = bd.getrCliente().buscar(idCliente);
@@ -372,6 +410,7 @@ public class Programa {
                         LocalDate dataAluguel = LocalDate.now();
                         System.out.println("Digite a quantidade de dias para devolução: ");
                         int diasAluguel = scn.nextInt();
+                        scn.nextLine();
                         LocalDate dataDevolucao = dataAluguel.plusDays(diasAluguel);
 
                         Aluga aluguel = new Aluga(idAluguel, clienteAluga, dataAluguel, dataDevolucao);
@@ -388,9 +427,16 @@ public class Programa {
                             4 - Finalizar seleção
                             """);
                             opItem = scn.nextInt();
+                            scn.nextLine();
 
                             if (opItem == 4) break;
-                            switch (opItem) {
+
+                            System.out.println("Digite o ID do item: ");
+                            int idItem = scn.nextInt();
+                            scn.nextLine();
+                            Entidade item = null;
+
+                            switch (op2) {
                                 case 1:
                                     System.out.println(bd.getrJogo().toString());
                                     break;
@@ -463,6 +509,7 @@ public class Programa {
 
                         """);
                         op2 = scn.nextInt();
+                        scn.nextLine();
                         switch (op2) {
                             case 1:
                                 System.out.println(bd.getrCliente().toString());
