@@ -39,7 +39,7 @@ public class ItensAluga extends Entidade {
     @Override
     public String toString() {
         return "Item alugado: " + item.toString() + 
-               " | Dias: " + dias + 
+               "\n | Dias: " + dias + 
                " | Valor: R$ " + valor + "\n";
     }
 }

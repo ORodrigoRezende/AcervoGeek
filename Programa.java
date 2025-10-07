@@ -390,12 +390,7 @@ public class Programa {
                             opItem = scn.nextInt();
 
                             if (opItem == 4) break;
-
-                            System.out.println("Digite o ID do item: ");
-                            int idItem = scn.nextInt();
-                            Entidade item = null;
-
-                            switch (op2) {
+                            switch (opItem) {
                                 case 1:
                                     System.out.println(bd.getrJogo().toString());
                                     break;
@@ -409,6 +404,26 @@ public class Programa {
                                     System.out.println("Opcao Invalida");
                                     break;
                             }
+
+                            System.out.println("Digite o ID do item: ");
+                            int idItem = scn.nextInt();
+                            Entidade item = null;
+
+                            switch (opItem) {
+                                case 1:
+                                    item = bd.getrJogo().buscar(idItem);
+                                    break;
+                                case 2:
+                                    item = bd.getrLivro().buscar(idItem);
+                                    break;
+                                case 3:
+                                    item = bd.getrFilme().buscar(idItem);
+                                    break;
+                                default:
+                                break;
+                            }
+                                 
+                            
 
                             if (item == null) {
                                 System.out.println("Item não encontrado!");
