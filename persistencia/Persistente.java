@@ -37,6 +37,9 @@ public class Persistente {
         }
         return null; 
     }
+    public boolean idExiste(int id) {
+        return buscar(id) != null;
+    }
 
     public List<Entidade> getEntidades() {
         return entidades;

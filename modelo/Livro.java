@@ -56,6 +56,6 @@ public class Livro extends Entidade{
 
     @Override
     public String toString() {
-        return super.toString() + "Nome: " + nome + "\n Genero: " + genero + "\n Valor=" + valor + "\n Autor: " + autor + "\n";
+        return super.toString() + "\n Nome: " + nome + "\n Genero: " + genero + "\n Valor=" + valor + "\n Autor: " + autor + "\n";
     }
 }

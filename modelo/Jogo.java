@@ -56,6 +56,6 @@ public class Jogo extends Entidade{
 
     @Override
     public String toString() {
-        return super.toString() + "Nome:" + nome + "\nGenero: " + genero + "\n Valor: " + valor + "\n Desenvolvedor: " + desenvolvedor;
+        return super.toString() + "\n Nome:" + nome + "\n Genero: " + genero + "\n Valor: " + valor + "\n Desenvolvedor: " + desenvolvedor;
     }
 }

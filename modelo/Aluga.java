@@ -65,16 +65,18 @@ public class Aluga extends Entidade {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Aluguel [Cliente: ").append(cliente.toString())
-          .append(" | Data aluguel: ").append(dataAluguel)
+        sb.append("----------------------------------------------------------\nAluguel \nCliente: ").append(cliente.toString())
+          .append("\n | Data aluguel: ").append(dataAluguel)
           .append(" | Data devolução: ").append(dataDevolucao)
-          .append(" | Itens: \n");
+          .append("|\nItens: \n");
 
         for (ItensAluga item : itens) {
             sb.append("   ").append(item.toString()).append("\n");
         }
 
         sb.append("Valor total: R$ ").append(calcularTotal());
+        sb.append("\n----------------------------------------------------------\n");
+
         return sb.toString();
     }
 }

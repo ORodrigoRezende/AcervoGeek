@@ -56,7 +56,7 @@ public class Filme extends Entidade{
 
     @Override
     public String toString() {
-        return super.toString()+ "Nome: " + nome + "\n Genero: " + genero + "\n Valor: " + valor + "\n Diretor: " + diretor + "\n";
+        return super.toString()+ "\n Nome: " + nome + "\n Genero: " + genero + "\n Valor: " + valor + "\n Diretor: " + diretor + "\n";
     }
 
 }

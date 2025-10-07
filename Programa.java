@@ -50,9 +50,17 @@ public class Programa {
                     switch (op2) {
                         case 1:
                             int id;
-                            System.out.println("Digite o id do cliente: ");
-                            id = scn.nextInt();
-                            scn.nextLine();
+                            boolean idJaExiste;
+                            do {
+                                System.out.println("Digite o id do cliente: ");
+                                id = scn.nextInt();
+                                scn.nextLine(); 
+                                idJaExiste = bd.getrCliente().idExiste(id); 
+                    
+                                if (idJaExiste) {
+                                    System.out.println("Id já existe! Tente Novamente!");
+                                }
+                            } while (idJaExiste);
 
                             System.out.println("Digite o nome do cliente: ");
                             String nome = scn.nextLine();
@@ -69,9 +77,19 @@ public class Programa {
                             bd.getrCliente().inserir(new Cliente(id,nome,telefone,cpf,endereco));
                             break;
                         case 2:
-                            System.out.println("Digite o id do jogo: ");
-                            int idJogo = scn.nextInt();
-                            scn.nextLine();
+                            boolean idJaExiste2;
+                            int idJogo;
+                            do {
+                                System.out.println("Digite o id do jogo: ");
+                                idJogo = scn.nextInt();
+                                scn.nextLine();
+                                idJaExiste2 = bd.getrJogo().idExiste(idJogo); 
+                    
+                                if (idJaExiste2) {
+                                    System.out.println("Id já existe! Tente Novamente!");
+                                }
+                            } while (idJaExiste2);
+                            
 
                             System.out.println("Digite o nome do jogo: ");
                             String nomeJogo = scn.nextLine();
@@ -90,9 +108,18 @@ public class Programa {
     
                             break;
                         case 3:
-                            System.out.println("Digite o id do livro: ");
-                            int idLivro = scn.nextInt();
-                            scn.nextLine();
+                            boolean idJaExiste3;
+                            int idLivro;
+                            do {
+                                System.out.println("Digite o id do livro: ");
+                                idLivro = scn.nextInt();
+                                scn.nextLine();
+                                idJaExiste3 = bd.getrLivro().idExiste(idLivro); 
+                    
+                                if (idJaExiste3) {
+                                    System.out.println("Id já existe! Tente Novamente!");
+                                }
+                            } while (idJaExiste3);
 
                             System.out.println("Digite o nome do livro: ");
                             String nomeLivro = scn.nextLine();
@@ -111,9 +138,19 @@ public class Programa {
 
                             break;
                         case 4:
-                            System.out.println("Digite o id do filme: ");
-                            int idFilme = scn.nextInt();
-                            scn.nextLine();
+                            boolean idJaExiste4;
+                            int idFilme;
+                            do {
+                                System.out.println("Digite o id do filme: ");
+                                idFilme = scn.nextInt();
+                                scn.nextLine();
+                                idJaExiste3 = bd.getrFilme().idExiste(idFilme); 
+                    
+                                if (idJaExiste3) {
+                                    System.out.println("Id já existe! Tente Novamente!");
+                                }
+                            } while (idJaExiste3);
+                            
 
                             System.out.println("Digite o nome do filme: ");
                             String nomeFilme = scn.nextLine();
