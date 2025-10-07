@@ -53,4 +53,9 @@ public class Filme extends Entidade{
     public void setDiretor(String desenvolvedor) {
         this.diretor = desenvolvedor;
     }
+
+    @Override
+    public String toString() {
+        return "Nome:" + nome + "\nGenero: " + genero + "\nValor: " + valor + "\nDiretor: " + diretor;
+    }
 }
