@@ -40,6 +40,6 @@ public class ItensAluga extends Entidade {
     public String toString() {
         return "Item alugado: " + item.toString() + 
                " | Dias: " + dias + 
-               " | Valor: R$ " + valor;
+               " | Valor: R$ " + valor + "\n";
     }
 }

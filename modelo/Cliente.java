@@ -56,6 +56,6 @@ public class Cliente extends Entidade{
 
     @Override
     public String toString() {
-        return "\n Nome: " + nome_do_cliente + "\n Telefone: " + telefone_do_cliente + "\n CPF: "+ cpf + "\n Endereço:" + endereco + "\n";
+        return super.toString() + "\n Nome: " + nome_do_cliente + "\n Telefone: " + telefone_do_cliente + "\n CPF: "+ cpf + "\n Endereço:" + endereco + "\n";
     }
 }
