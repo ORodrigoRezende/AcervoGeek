@@ -53,4 +53,9 @@ public class Livro extends Entidade{
     public void setAutor(String autor) {
         this.autor = autor;
     }
+
+    @Override
+    public String toString() {
+        return "Nome:" + nome + "\nGenero: " + genero + "\nValor: " + valor + "\nAutor: " + autor;
+    }
 }
