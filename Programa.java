@@ -143,7 +143,7 @@ public class Programa {
                             System.out.println("Digite o id do Cliente que deseja alterar: ");
                             int idC = scn.nextInt();scn.nextLine();
 
-                            Cliente c = (Cliente)bd.getrJogo().buscar(idC);
+                            Cliente c = (Cliente)bd.getrCliente().buscar(idC);
 
                             if (c == null){
                                 System.out.println("Cliente nao encontrado!");
