@@ -1,82 +1,108 @@
 package modelo;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Scanner;
+import persistencia.BancodeDados;
+import persistencia.Persistente;
 
 public class Aluga extends Entidade {
+
     private Cliente cliente;
     private LocalDate dataAluguel;
     private LocalDate dataDevolucao;
-    private List<ItensAluga> itens;
 
-    public Aluga(int id, Cliente cliente, LocalDate dataAluguel, LocalDate dataDevolucao) {
+    public Aluga() {}
+
+    public Aluga(int id, Cliente cliente, LocalDate da, LocalDate dd) {
         super(id);
         this.cliente = cliente;
-        this.dataAluguel = dataAluguel;
-        this.dataDevolucao = dataDevolucao;
-        this.itens = new ArrayList<>();
+        this.dataAluguel = da;
+        this.dataDevolucao = dd;
     }
 
-    public void adicionarItem(ItensAluga item) {
-        itens.add(item);
-    }
 
-    public void removerItem(ItensAluga item) {
-        itens.remove(item);
-    }
+    public void cadastrar(BancodeDados bd, Scanner sc) {
 
-    public double calcularTotal() {
-        double total = 0;
-        for (ItensAluga item : itens) {
-            total += item.getValor();
-        }
-        return total;
-    }
+        Persistente<Aluga> rAluga = bd.getrAluga();
+        Persistente<Cliente> rCliente = bd.getrCliente();
 
-    public Cliente getCliente() {
-        return cliente;
-    }
+        System.out.print("ID do aluguel: ");
+        int idAluguel = sc.nextInt();
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
+        System.out.print("ID do cliente: ");
+        int idCliente = sc.nextInt();
 
-    public LocalDate getDataAluguel() {
-        return dataAluguel;
-    }
-
-    public void setDataAluguel(LocalDate dataAluguel) {
-        this.dataAluguel = dataAluguel;
-    }
-
-    public LocalDate getDataDevolucao() {
-        return dataDevolucao;
-    }
-
-    public void setDataDevolucao(LocalDate dataDevolucao) {
-        this.dataDevolucao = dataDevolucao;
-    }
-
-    public List<ItensAluga> getItens() {
-        return itens;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("----------------------------------------------------------\nAluguel \nCliente: ").append(cliente.toString())
-          .append("\n | Data aluguel: ").append(dataAluguel)
-          .append(" | Data devolução: ").append(dataDevolucao)
-          .append("|\nItens: \n");
-
-        for (ItensAluga item : itens) {
-            sb.append("   ").append(item.toString()).append("\n");
+        Cliente c = rCliente.buscar(idCliente);
+        if (c == null) {
+            System.out.println("Cliente não encontrado!");
+            return;
         }
 
-        sb.append("Valor total: R$ ").append(calcularTotal());
-        sb.append("\n----------------------------------------------------------\n");
+        System.out.print("Data de aluguel (AAAA-MM-DD): ");
+        LocalDate da = LocalDate.parse(sc.next());
 
-        return sb.toString();
+        System.out.print("Data de devolução (AAAA-MM-DD): ");
+        LocalDate dd = LocalDate.parse(sc.next());
+
+        Aluga novo = new Aluga(idAluguel, c, da, dd);
+
+        rAluga.inserir(novo);
+        System.out.println("Aluguel cadastrado!");
     }
+
+    public void alterar(BancodeDados bd, Scanner sc) {
+
+        Persistente<Aluga> rAluga = bd.getrAluga();
+
+        System.out.print("ID do aluguel: ");
+        int id = sc.nextInt();
+
+        Aluga a = rAluga.buscar(id);
+
+        if (a == null) {
+            System.out.println("Aluguel não encontrado!");
+            return;
+        }
+
+        System.out.print("Nova data de devolução (AAAA-MM-DD): ");
+        LocalDate nova = LocalDate.parse(sc.next());
+
+        a.setDataDevolucao(nova);
+        rAluga.alterar(a);
+
+        System.out.println("Aluguel atualizado!");
+    }
+
+
+    public void excluir(BancodeDados bd, Scanner sc) {
+
+        Persistente<Aluga> rAluga = bd.getrAluga();
+
+        System.out.print("ID do aluguel: ");
+        int id = sc.nextInt();
+
+        if (rAluga.excluir(id)) {
+            System.out.println("Aluguel excluído!");
+        } else {
+            System.out.println("ID não encontrado!");
+        }
+    }
+
+    public void listar(BancodeDados bd) {
+        System.out.println("\n===== LISTA DE ALUGUÉIS =====");
+        System.out.println(bd.getrAluga().toString());
+    }
+
+    public Cliente getCliente() { return cliente; }
+
+    public void setCliente(Cliente cliente) { this.cliente = cliente; }
+
+    public LocalDate getDataAluguel() { return dataAluguel; }
+
+    public void setDataAluguel(LocalDate dataAluguel) { this.dataAluguel = dataAluguel; }
+
+    public LocalDate getDataDevolucao() { return dataDevolucao; }
+
+    public void setDataDevolucao(LocalDate dataDevolucao) { this.dataDevolucao = dataDevolucao; }
+
 }
