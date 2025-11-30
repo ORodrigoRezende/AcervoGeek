@@ -4,55 +4,57 @@ import java.util.ArrayList;
 import java.util.List;
 import modelo.Entidade;
 
-public class Persistente {
-    private List<Entidade> entidades;
+public class Persistente<T extends Entidade> {
 
-    public Persistente(){
+    private List<T> entidades;
+
+    public Persistente() {
         this.entidades = new ArrayList<>();
     }
 
-    public void inserir(Entidade r) {
+    public void inserir(T r) {
         entidades.add(r);
     }
 
-    public boolean alterar(Entidade r) {
+    public boolean alterar(T r) {
         for (int i = 0; i < entidades.size(); i++) {
             if (entidades.get(i).getId() == r.getId()) {
                 entidades.set(i, r);
                 return true;
             }
         }
-        return false; 
+        return false;
     }
 
     public boolean excluir(int id) {
         return entidades.removeIf(r -> r.getId() == id);
     }
 
-    public Entidade buscar(int id) {
-        for (Entidade r : entidades) {
+    public T buscar(int id) {
+        for (T r : entidades) {
             if (r.getId() == id) {
                 return r;
             }
         }
-        return null; 
+        return null;
     }
+
     public boolean idExiste(int id) {
         return buscar(id) != null;
     }
 
-    public List<Entidade> getEntidades() {
+    public List<T> getEntidades() {
         return entidades;
     }
 
-    public void setEntidades(List<Entidade> entidades) {
+    public void setEntidades(List<T> entidades) {
         this.entidades = entidades;
     }
 
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder();
-        for (Entidade r : entidades) {
+        for (T r : entidades) {
             s.append(r.toString()).append("\n");
         }
         return s.toString();
