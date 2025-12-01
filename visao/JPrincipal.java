@@ -14,12 +14,12 @@ public class JPrincipal extends JFrame {
         super("AcervoGeek");
 
         // Tamanho e configurações
-        setSize(400, 200);
+        setSize(400, 220);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new GridBagLayout());
         setLocationRelativeTo(null);
 
-        // Estilo manual da interface
+        // Estilo manual
         getContentPane().setBackground(new Color(240, 240, 240));
 
         var gbc = new GridBagConstraints();
@@ -43,7 +43,7 @@ public class JPrincipal extends JFrame {
         gbc.gridy = 1;
         add(cbCategorias, gbc);
 
-        // Botão Abrir
+        // Botão Abrir (CENTRALIZADO)
         btAbrir = new JButton("Abrir");
         btAbrir.setFont(new Font("Segoe UI", Font.BOLD, 14));
         btAbrir.setBackground(new Color(100, 150, 255));
@@ -51,7 +51,9 @@ public class JPrincipal extends JFrame {
         btAbrir.setFocusPainted(false);
 
         gbc.gridy = 2;
-        gbc.gridwidth = 1;
+        gbc.gridwidth = 2;         // Ocupa duas colunas
+        gbc.anchor = GridBagConstraints.CENTER;  // Centraliza
+        gbc.fill = GridBagConstraints.NONE;      // Tamanho do botão natural
         add(btAbrir, gbc);
 
         // Ação do botão
