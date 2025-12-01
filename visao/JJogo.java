@@ -1,4 +1,4 @@
-package gui;
+package visao;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -14,14 +14,14 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-public class JogoForm extends JFrame implements ActionListener {
+public class JJogo extends JFrame implements ActionListener {
 
     private JTextField tfnome, tfgenero, tfvalor, tfdesenv;
     private JButton btsalvar, btalterar, btremover, btcancelar;
     private JTable tabela;
     private DefaultTableModel modeloTabela;
 
-    public JogoForm() {
+    public JJogo() {
 
         super("Cadastro de Jogos");
         setSize(700, 500);
@@ -140,6 +140,6 @@ public class JogoForm extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args) {
-        new JogoForm().setVisible(true);
+        new JJogo().setVisible(true);
     }
 }
