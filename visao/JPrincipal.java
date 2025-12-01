@@ -94,7 +94,7 @@ public class JPrincipal extends JFrame {
                 new JJogo().setVisible(true);
                 break;
             case "CLIENTES":
-                new JCliente().setVisible(true);
+                new JJogo().setVisible(true);
                 break;
               case "JOGOS":
                 new JJogo().setVisible(true);
