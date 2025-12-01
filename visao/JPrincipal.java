@@ -23,9 +23,8 @@ public class JPrincipal extends JFrame implements ActionListener {
   private DefaultTableModel modeloTabela;
   private JTable tabela;
 
-  private String[] categorias = new String[] {
-      "JOGOS" // ➜ nova categoria adicionada
-  };
+  private String[] categorias = new String[] {"JOGOS" };
+  
 
   public JPrincipal() {
 
