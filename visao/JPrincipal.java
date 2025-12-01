@@ -2,19 +2,22 @@ package visao;
 
 import java.awt.*;
 import javax.swing.*;
+import persistencia.BancodeDados;
 
 public class JPrincipal extends JFrame {
 
     private JComboBox<String> cbCategorias;
     private JButton btAbrir;
-
+    private BancodeDados bd;
     private String[] categorias = { "Selecione..", "ALUGUEL", "CLIENTE", "FILMES", "JOGOS", "LIVROS" };
 
-    public JPrincipal() {
+    public JPrincipal(BancodeDados bd) {
         super("AcervoGeek");
 
+        this.bd = bd;
+
         // Tamanho e configurações
-        setSize(400, 220);
+        setSize(1280, 720);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new GridBagLayout());
         setLocationRelativeTo(null);
@@ -93,8 +96,11 @@ public class JPrincipal extends JFrame {
              case "ALUGUEL":
                 new JJogo().setVisible(true);
                 break;
-            case "CLIENTES":
-                new JJogo().setVisible(true);
+            case "CLIENTE":
+                JCliente jc = new JCliente(this.bd);
+                jc.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                jc.setVisible(true);
+
                 break;
               case "JOGOS":
                 new JJogo().setVisible(true);
@@ -115,7 +121,4 @@ public class JPrincipal extends JFrame {
         }
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new JPrincipal().setVisible(true));
-    }
 }

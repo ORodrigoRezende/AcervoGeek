@@ -1,39 +1,43 @@
 package persistencia;
 
+import modelo.Aluga;
+import modelo.Cliente;
+import modelo.Filme;
+import modelo.Jogo;
+import modelo.Livro;
+
 public class BancodeDados {
-    private Persistente rCliente;
-    private Persistente rJogo;
-    private Persistente rLivro;
-    private Persistente rFilme;
-    private Persistente rAluga;
+    private Persistente<Cliente> rCliente;
+    private Persistente<Jogo> rJogo;
+    private Persistente<Livro> rLivro;
+    private Persistente<Filme> rFilme;
+    private Persistente<Aluga> rAluga;
 
     public BancodeDados() {
-        rCliente = new Persistente();
-        rFilme = new Persistente();
-        rJogo = new Persistente();
-        rLivro = new Persistente();
-        rAluga = new Persistente();
+        rCliente = new Persistente<Cliente>();
+        rFilme = new Persistente<Filme>();
+        rJogo = new Persistente<Jogo>();
+        rLivro = new Persistente<Livro>();
+        rAluga = new Persistente<Aluga>();
     }
 
-    public Persistente getrCliente() {
+    public Persistente<Cliente> getrCliente() {
         return rCliente;
     }
 
-    public Persistente getrJogo() {
+    public Persistente<Jogo> getrJogo() {
         return rJogo;
     }
 
-    public Persistente getrLivro() {
+    public Persistente<Livro> getrLivro() {
         return rLivro;
     }
 
-    public Persistente getrFilme() {
+    public Persistente<Filme> getrFilme() {
         return rFilme;
     }
 
-    public Persistente getrAluga() {
+    public Persistente<Aluga> getrAluga() {
         return rAluga;
     }
-
-    
 }
