@@ -91,7 +91,7 @@ public class JPrincipal extends JFrame {
 
         switch (cat) {
              case "ALUGUEL":
-                new JAluga().setVisible(true);
+                new JJogo().setVisible(true);
                 break;
             case "CLIENTES":
                 new JCliente().setVisible(true);
@@ -100,10 +100,10 @@ public class JPrincipal extends JFrame {
                 new JJogo().setVisible(true);
                 break;
               case "FILMES":
-                new JFilme().setVisible(true);
+                new JJogo().setVisible(true);
                 break;
             case "LIVROS":
-                new JLivro().setVisible(true);
+                new JJogo().setVisible(true);
                 break;
             default:
                 JOptionPane.showMessageDialog(
