@@ -15,7 +15,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-public class JanelaPrincipal extends JFrame implements ActionListener {
+public class JPrincipal extends JFrame implements ActionListener {
 
   private JTextField tfnm, tfvl;
   private JComboBox<String> cbct;
@@ -27,7 +27,7 @@ public class JanelaPrincipal extends JFrame implements ActionListener {
       "JOGOS" // ➜ nova categoria adicionada
   };
 
-  public JanelaPrincipal() {
+  public JPrincipal() {
 
     super("Formulário de produtos");
     setSize(800, 600);
@@ -69,7 +69,7 @@ public class JanelaPrincipal extends JFrame implements ActionListener {
       public void actionPerformed(ActionEvent e) {
         String cat = cbct.getSelectedItem().toString();
         if (cat.equals("JOGOS")) {
-          new JogoForm().setVisible(true);
+          new JJogo().setVisible(true);
         }
       }
     });
@@ -154,6 +154,6 @@ public class JanelaPrincipal extends JFrame implements ActionListener {
   }
 
   public static void main(String[] args) {
-    new JanelaPrincipal().setVisible(true);
+    new JPrincipal().setVisible(true);
   }
 }
