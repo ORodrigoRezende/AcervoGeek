@@ -17,6 +17,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import modelo.Cliente;
 import persistencia.BancodeDados;
+import persistencia.IDNaoExistenteExeception;
 
 public class JCliente extends JFrame implements ActionListener {
 
@@ -117,7 +118,13 @@ public class JCliente extends JFrame implements ActionListener {
         add(createSpacer(), gbc);
 
         // Coluna a direita para a tabela
-        modeloTabela = new DefaultTableModel();
+        modeloTabela = new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Impede a edição direta na tabela
+            }
+        };
+
         modeloTabela.addColumn("ID");
         modeloTabela.addColumn("Nome");
         modeloTabela.addColumn("Telefone");
@@ -131,15 +138,20 @@ public class JCliente extends JFrame implements ActionListener {
             if (!e.getValueIsAdjusting() && tabela.getSelectedRow() != -1) {
                 int modelRow = tabela.convertRowIndexToModel(tabela.getSelectedRow());
                 Object idVal = modeloTabela.getValueAt(modelRow, 0);
+
+                tfId.setEditable(false);
+
                 if (idVal != null) {  //Verificação do if vai mudar 
                   int id = Integer.parseInt(idVal.toString());
-                  Cliente c = bd.getrCliente().buscar(id); // Da erro no vsCode por causa do generico
-                  if (c != null) {
+                  try {
+                    Cliente c = bd.getrCliente().buscar(id);
                     tfId.setText(String.valueOf(c.getId()));
                     tfNome.setText(c.getNome_do_cliente());
                     tfTel.setText(c.getTelefone_do_cliente());
                     tfCpf.setText(c.getCpf());
                     tfEnd.setText(c.getEndereco());
+                  } catch (IDNaoExistenteExeception ex) {
+                    System.err.println("Cliente não encontrado: " + id);
                   }
                 }
             }
@@ -190,15 +202,10 @@ public class JCliente extends JFrame implements ActionListener {
                 return;
             }
 
-            if (bd == null || bd.getrCliente() == null) {         // Verifica se o banco de dados está inicializado Talvez tirar pq
-                JOptionPane.showMessageDialog(this, "Banco não inicializado.", "Erro", JOptionPane.ERROR_MESSAGE);
+            if (bd.getrCliente().idExiste(id)) {
+                JOptionPane.showMessageDialog(this, "ID já existe.", "Erro", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-
-            // if (bd.getrCliente().idExiste(id)) {                                   Nossa exeção
-            //     JOptionPane.showMessageDialog(this, "ID já existe.", "Erro", JOptionPane.ERROR_MESSAGE);
-            //     return;
-            // }
 
             Cliente c = new Cliente(id, tfNome.getText(), tfTel.getText(), tfCpf.getText(), tfEnd.getText());
             bd.getrCliente().inserir(c);
@@ -206,30 +213,33 @@ public class JCliente extends JFrame implements ActionListener {
             LimpaCampos();
 
         } else if (e.getSource() == btal) {
-            int sel = tabela.getSelectedRow();
-            if (sel == -1) return;
-            int modelIndex = tabela.convertRowIndexToModel(sel);
+            String textoId = tfId.getText().trim();
+
+            if (textoId.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Para alterar, selecione um cliente ou digite o ID.", "Aviso", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
 
             int id;
-            try { id = Integer.parseInt(tfId.getText().trim()); }  //Revisar isso que foi gerado, tem que colocar a nossa exceção a ser criada
+            try { id = Integer.parseInt(tfId.getText().trim()); } 
             catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(this, "ID inválido. Digite um número inteiro.", "Erro", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-
+            boolean ok = false;
             Cliente c = new Cliente(id, tfNome.getText(), tfTel.getText(), tfCpf.getText(), tfEnd.getText());
             if (bd != null && bd.getrCliente() != null) {
-                boolean ok = bd.getrCliente().alterar(c);
-                if (!ok) {  //Revisar isso que foi gerado, tem que colocar a nossa exceção a ser criada
+                ok = bd.getrCliente().alterar(c);
+                if (!ok) {  
                     JOptionPane.showMessageDialog(this, "Falha ao alterar — ID não encontrado.", "Erro", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
             }
-            modeloTabela.setValueAt(id, modelIndex, 0);
-            modeloTabela.setValueAt(tfNome.getText(), modelIndex, 1);
-            modeloTabela.setValueAt(tfTel.getText(), modelIndex, 2);
-            modeloTabela.setValueAt(tfCpf.getText(), modelIndex, 3);
-            modeloTabela.setValueAt(tfEnd.getText(), modelIndex, 4);
+            if(ok){ // Se foi alterado atualiza a tabela e limpa os campos
+                CarregarTabelodoBanco();
+                tabela.clearSelection();
+                LimpaCampos();
+            }
 
         } else if (e.getSource() == btrm) {
             int sel = tabela.getSelectedRow();
@@ -240,7 +250,7 @@ public class JCliente extends JFrame implements ActionListener {
             int id = Integer.parseInt(idVal.toString());
             if (bd != null && bd.getrCliente() != null) {
                 boolean ok = bd.getrCliente().excluir(id);
-                if (!ok) {  //Revisar isso que foi gerado, tem que colocar a nossa exceção a ser criada
+                if (!ok) {  
                     JOptionPane.showMessageDialog(this, "Falha ao excluir — ID não encontrado.", "Erro", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
@@ -256,6 +266,7 @@ public class JCliente extends JFrame implements ActionListener {
 
     private void LimpaCampos() {
         tfId.setText("");
+        tfId.setEditable(true);
         tfNome.setText("");
         tfTel.setText("");
         tfCpf.setText("");

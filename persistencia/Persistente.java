@@ -12,8 +12,10 @@ public class Persistente<T extends Entidade> {
         this.entidades = new ArrayList<>();
     }
 
-    public void inserir(T r) {
+    public boolean  inserir(T r) {
+        if(idExiste(r.getId())) return false; //Verificação se o ID já existe
         entidades.add(r);
+        return true;
     }
 
     public boolean alterar(T r) {
@@ -30,17 +32,23 @@ public class Persistente<T extends Entidade> {
         return entidades.removeIf(r -> r.getId() == id);
     }
 
-    public T buscar(int id) {
+    public T buscar(int id) throws IDNaoExistenteExeception{
         for (T r : entidades) {
             if (r.getId() == id) {
                 return r;
             }
         }
-        return null;
+
+        throw new IDNaoExistenteExeception("ID " + id + " não existe.");
     }
 
     public boolean idExiste(int id) {
-        return buscar(id) != null;
+        for (T r : entidades) {
+            if (r.getId() == id) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public List<T> getEntidades() {

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.Scanner;
 import persistencia.BancodeDados;
 import persistencia.Persistente;
+import persistencia.IDNaoExistenteExeception;
 
 public class Aluga extends Entidade {
 
@@ -32,8 +33,10 @@ public class Aluga extends Entidade {
         System.out.print("ID do cliente: ");
         int idCliente = sc.nextInt();
 
-        Cliente c = rCliente.buscar(idCliente);
-        if (c == null) {
+        Cliente c;
+        try {
+            c = rCliente.buscar(idCliente);
+        } catch (IDNaoExistenteExeception ex) {
             System.out.println("Cliente não encontrado!");
             return;
         }
@@ -57,10 +60,12 @@ public class Aluga extends Entidade {
         System.out.print("ID do aluguel: ");
         int id = sc.nextInt();
 
-        Aluga a = rAluga.buscar(id);
+        Aluga a;
+        try {
+            a = rAluga.buscar(id);
 
-        if (a == null) {
-            System.out.println("Aluguel não encontrado!");
+        } catch (IDNaoExistenteExeception ex) {
+            System.err.println("Aluguel não encontrado: " + id);
             return;
         }
 
