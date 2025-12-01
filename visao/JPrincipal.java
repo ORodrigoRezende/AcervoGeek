@@ -103,7 +103,7 @@ public class JPrincipal extends JFrame {
                 new JFilme().setVisible(true);
                 break;
             case "LIVROS":
-                new JJogo().setVisible(true);
+                new JLivro().setVisible(true);
                 break;
             default:
                 JOptionPane.showMessageDialog(
