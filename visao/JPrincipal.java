@@ -154,6 +154,6 @@ public class JanelaPrincipal extends JFrame implements ActionListener {
   }
 
   public static void main(String[] args) {
-    new ProdutoForm().setVisible(true);
+    new JanelaPrincipal().setVisible(true);
   }
 }
