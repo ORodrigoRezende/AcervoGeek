@@ -75,6 +75,15 @@ public class ProdutoForm extends JFrame implements ActionListener {
 
     cbct = new JComboBox<String>(categorias);
     cbct.setSelectedIndex(0);
+
+    // ➜ Listener para abrir janela ao selecionar categoria
+    cbct.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        abrirJanelaCategoria(cbct.getSelectedItem().toString());
+      }
+    });
+
     gbc.gridx = 5;
     gbc.gridy = 1;
     gbc.weightx = 0.0;
@@ -140,6 +149,17 @@ public class ProdutoForm extends JFrame implements ActionListener {
     gbc.fill = GridBagConstraints.BOTH;
     gbc.insets = new Insets(5, 0, 5, 0);
     add(scroll, gbc);
+  }
+
+  // ➜ Método que abre outra janela baseado na categoria selecionada
+  private void abrirJanelaCategoria(String categoria) {
+    JFrame janela = new JFrame("Categoria selecionada");
+    janela.setSize(300, 150);
+    janela.setLocationRelativeTo(this);
+
+    janela.add(new JLabel("Categoria selecionada: " + categoria));
+
+    janela.setVisible(true);
   }
 
   @Override
