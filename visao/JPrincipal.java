@@ -8,7 +8,7 @@ public class JPrincipal extends JFrame {
     private JComboBox<String> cbCategorias;
     private JButton btAbrir;
 
-    private String[] categorias = { "Selecione..", "JOGOS" };
+    private String[] categorias = { "Selecione..", "ALUGUEL", "FILMES", "JOGOS", "LIVROS" };
 
     public JPrincipal() {
         super("AcervoGeek");
@@ -39,6 +39,22 @@ public class JPrincipal extends JFrame {
         // ComboBox
         cbCategorias = new JComboBox<>(categorias);
         cbCategorias.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        cbCategorias.setSelectedIndex(0); // garante que "Selecione.." seja exibido primeiro
+
+        // Renderer para deixar "Selecione.." cinza
+        cbCategorias.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(
+                    JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                Component c = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                if ("Selecione..".equals(value)) {
+                    setForeground(Color.GRAY);
+                } else {
+                    setForeground(Color.BLACK);
+                }
+                return c;
+            }
+        });
 
         gbc.gridy = 1;
         add(cbCategorias, gbc);
@@ -51,9 +67,9 @@ public class JPrincipal extends JFrame {
         btAbrir.setFocusPainted(false);
 
         gbc.gridy = 2;
-        gbc.gridwidth = 2;         // Ocupa duas colunas
-        gbc.anchor = GridBagConstraints.CENTER;  // Centraliza
-        gbc.fill = GridBagConstraints.NONE;      // Tamanho do botão natural
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.NONE;
         add(btAbrir, gbc);
 
         // Ação do botão
@@ -63,12 +79,32 @@ public class JPrincipal extends JFrame {
     private void abrirCategoria() {
         String cat = cbCategorias.getSelectedItem().toString();
 
+        if ("Selecione..".equals(cat)) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Escolha uma categoria válida.",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE
+            );
+            return;
+        }
+
         switch (cat) {
-            case "JOGOS":
+             case "ALUGUEL":
+                new JAluga().setVisible(true);
+                break;
+            case "CLIENTES":
+                new JCliente().setVisible(true);
+                break;
+              case "JOGOS":
                 new JJogo().setVisible(true);
                 break;
-
-            case "Selecione..":
+              case "FILMES":
+                new JFilme().setVisible(true);
+                break;
+            case "LIVROS":
+                new JJogo().setVisible(true);
+                break;
             default:
                 JOptionPane.showMessageDialog(
                         this,
@@ -76,11 +112,10 @@ public class JPrincipal extends JFrame {
                         "Atenção",
                         JOptionPane.WARNING_MESSAGE
                 );
-                break;
         }
     }
 
     public static void main(String[] args) {
-        new JPrincipal().setVisible(true);
+        SwingUtilities.invokeLater(() -> new JPrincipal().setVisible(true));
     }
 }
