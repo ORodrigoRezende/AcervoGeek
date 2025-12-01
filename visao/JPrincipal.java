@@ -55,7 +55,7 @@ public class JPrincipal extends JFrame {
             case "JOGOS":
                 new JJogo().setVisible(true);
                 break;
-
+                
             case "Selecione...":
             default:
                 JOptionPane.showMessageDialog(this,
