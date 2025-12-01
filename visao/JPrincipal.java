@@ -14,7 +14,7 @@ public class JPrincipal extends JFrame {
     private String[] categorias = { "Selecione..", "JOGOS" };
 
     public JPrincipal() {
-        super("Menu Principal");
+        super("AcervoGeek");
         setSize(400, 200);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new GridBagLayout());
