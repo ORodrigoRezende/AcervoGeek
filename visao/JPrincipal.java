@@ -8,7 +8,7 @@ public class JPrincipal extends JFrame {
     private JComboBox<String> cbCategorias;
     private JButton btAbrir;
 
-    private String[] categorias = { "Selecione..", "ALUGUEL", "FILMES", "JOGOS", "LIVROS" };
+    private String[] categorias = { "Selecione..", "ALUGUEL", "CLIENTE", "FILMES", "JOGOS", "LIVROS" };
 
     public JPrincipal() {
         super("AcervoGeek");
