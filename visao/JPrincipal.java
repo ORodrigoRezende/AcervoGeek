@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-import com.formdev.flatlaf.FlatLightLaf;
+//import com.formdev.flatlaf.FlatLightLaf;
 
 public class JPrincipal extends JFrame {
 
@@ -66,7 +66,7 @@ public class JPrincipal extends JFrame {
     }
 
     public static void main(String[] args) {
-        FlatLightLaf.setup();
+       // FlatLightLaf.setup();
         new JPrincipal().setVisible(true);
     }
 }
