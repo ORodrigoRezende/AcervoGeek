@@ -1,4 +1,4 @@
-package gui;
+package visao;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -15,7 +15,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-public class ProdutoForm extends JFrame implements ActionListener {
+public class JanelaPrincipal extends JFrame implements ActionListener {
 
   private JTextField tfnm, tfvl;
   private JComboBox<String> cbct;
@@ -27,7 +27,7 @@ public class ProdutoForm extends JFrame implements ActionListener {
       "JOGOS" // ➜ nova categoria adicionada
   };
 
-  public ProdutoForm() {
+  public JanelaPrincipal() {
 
     super("Formulário de produtos");
     setSize(800, 600);
