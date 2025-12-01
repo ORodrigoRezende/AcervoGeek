@@ -47,7 +47,6 @@ public class JPrincipal extends JFrame {
         // Ação do botão
         btAbrir.addActionListener(e -> abrirCategoria());
     }
-
     private void abrirCategoria() {
         String cat = cbCategorias.getSelectedItem().toString();
 
