@@ -106,18 +106,21 @@ public class JPrincipal extends JFrame {
                 new JJogo().setVisible(true);
                 break;
               case "FILMES":
-                new JJogo().setVisible(true);
+                JFilme jf = new JFilme(this.bd);
+                jf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                jf.setVisible(true);
                 break;
+                
             case "LIVROS":
                 new JJogo().setVisible(true);
                 break;
-            default:
+            /*default:
                 JOptionPane.showMessageDialog(
                         this,
                         "Escolha uma categoria válida.",
                         "Atenção",
                         JOptionPane.WARNING_MESSAGE
-                );
+                );*/
         }
     }
 
