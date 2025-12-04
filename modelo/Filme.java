@@ -14,7 +14,7 @@ public class Filme extends Entidade{
         this.valor=0f;
     }
 
-     public Filme(String diretor, String genero, String nome, float valor, int id){
+     public Filme( int id, String diretor, String genero, String nome, float valor){
         super(id);
         this.diretor = diretor;
         this.genero = genero;
