@@ -19,8 +19,9 @@ import modelo.Cliente;
 import persistencia.BancodeDados;
 import persistencia.IDNaoExistenteExeception;
 
-public class JCliente extends JFrame implements ActionListener {
 
+public class JCliente extends JFrame implements ActionListener {
+    
     private BancodeDados bd; //Cria uma copia do banco de dados
     private JTextField tfId, tfNome, tfTel, tfCpf, tfEnd; //Campos de texto
     private JButton btsv, btal, btrm, btcn; //Botoes
@@ -213,28 +214,28 @@ public class JCliente extends JFrame implements ActionListener {
             LimpaCampos();
 
         } else if (e.getSource() == btal) {
-            String textoId = tfId.getText().trim();
 
-            if (textoId.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Para alterar, selecione um cliente ou digite o ID.", "Aviso", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
+            int sel = tabela.getSelectedRow();
+            if (sel == -1) return;
+            int modelIndex = tabela.convertRowIndexToModel(sel);
 
             int id;
-            try { id = Integer.parseInt(tfId.getText().trim()); } 
+            try { id = Integer.parseInt(tfId.getText().trim()); }  //Revisar isso que foi gerado, tem que colocar a nossa exceção a ser criada
             catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(this, "ID inválido. Digite um número inteiro.", "Erro", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+
             boolean ok = false;
             Cliente c = new Cliente(id, tfNome.getText(), tfTel.getText(), tfCpf.getText(), tfEnd.getText());
             if (bd != null && bd.getrCliente() != null) {
                 ok = bd.getrCliente().alterar(c);
-                if (!ok) {  
+                if (!ok) {  //Revisar isso que foi gerado, tem que colocar a nossa exceção a ser criada
                     JOptionPane.showMessageDialog(this, "Falha ao alterar — ID não encontrado.", "Erro", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
             }
+            
             if(ok){ // Se foi alterado atualiza a tabela e limpa os campos
                 CarregarTabelodoBanco();
                 tabela.clearSelection();
