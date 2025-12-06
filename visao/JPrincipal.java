@@ -94,7 +94,10 @@ public class JPrincipal extends JFrame {
 
         switch (cat) {
              case "ALUGUEL":
-                new JJogo().setVisible(true);
+                //JAluga ja = new JAluga(this.bd);
+                //ja.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                //ja.setVisible(true);
+
                 break;
             case "CLIENTE":
                 JCliente jc = new JCliente(this.bd);
@@ -103,7 +106,10 @@ public class JPrincipal extends JFrame {
 
                 break;
               case "JOGOS":
-                new JJogo().setVisible(true);
+                JJogo jj = new JJogo(this.bd);
+                jj.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                jj.setVisible(true);
+
                 break;
               case "FILMES":
                 JFilme jf = new JFilme(this.bd);
@@ -112,7 +118,10 @@ public class JPrincipal extends JFrame {
                 break;
                 
             case "LIVROS":
-                new JJogo().setVisible(true);
+                JLivro jl = new JLivro(this.bd);
+                jl.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                jl.setVisible(true);
+
                 break;
             /*default:
                 JOptionPane.showMessageDialog(
