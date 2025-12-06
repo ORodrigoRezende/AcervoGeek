@@ -5,141 +5,285 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import modelo.Jogo;
+import persistencia.BancodeDados;
+import persistencia.IDNaoExistenteExeception;
 
 public class JJogo extends JFrame implements ActionListener {
 
-    private JTextField tfnome, tfgenero, tfvalor, tfdesenv;
-    private JButton btsalvar, btalterar, btremover, btcancelar;
-    private JTable tabela;
+    private BancodeDados bd; //Cria uma copia do banco de dados
+    private JTextField tfId, tfNome, tfGenero, tfValor, tfDesenvolvedor; //Campos de texto
+    private JButton btsv, btal, btrm, btcn; //Botoes
     private DefaultTableModel modeloTabela;
+    private JTable tabela;
 
-    public JJogo() {
-
+    public JJogo(BancodeDados bd) {
         super("Cadastro de Jogos");
-        setSize(700, 500);
+        this.bd = bd;
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setSize(1280, 720);
+        setLocationRelativeTo(null); // Coloca o painel no meio da tela
         setLayout(new GridBagLayout());
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
-        var gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(5, 5, 5, 5);
+        GridBagConstraints gbc = new GridBagConstraints(); //Cria um grid
+        gbc.insets = new Insets(8, 8, 8, 8);
 
-        // linha 0 – Nome
-        gbc.gridx = 0; gbc.gridy = 0;
-        add(new JLabel("Nome:"), gbc);
+        // Coluna Esquerda para escrever os dados
+        JPanel form = new JPanel(new GridBagLayout());
+        form.setBorder(BorderFactory.createTitledBorder("Dados do Jogo"));
+        GridBagConstraints f = new GridBagConstraints();
+        f.insets = new Insets(6, 6, 6, 6);
+        f.fill = GridBagConstraints.HORIZONTAL;
+        f.weightx = 1.0;
 
-        tfnome = new JTextField();
-        gbc.gridx = 1; gbc.gridwidth = 3;
-        add(tfnome, gbc);
+        // ID
+        f.gridx = 0;
+        f.gridy = 0;
+        f.gridwidth = 1;
+        form.add(new JLabel("ID:"), f);
+        tfId = new JTextField();
+        f.gridy = 1;
+        form.add(tfId, f);
 
-        // linha 1 – Genero
-        gbc.gridx = 0; gbc.gridy = 1; gbc.gridwidth = 1;
-        add(new JLabel("Gênero:"), gbc);
+        // Nome
+        f.gridy = 2;
+        form.add(new JLabel("Nome do Jogo:"), f);
+        tfNome = new JTextField();
+        f.gridy = 3;
+        form.add(tfNome, f);
 
-        tfgenero = new JTextField();
-        gbc.gridx = 1; gbc.gridwidth = 3;
-        add(tfgenero, gbc);
+        //Genero
+        f.gridy = 4;
+        form.add(new JLabel("Genero:"), f);
+        tfGenero = new JTextField();
+        f.gridy = 5;
+        form.add(tfGenero, f);
 
-        // linha 2 – Valor
-        gbc.gridx = 0; gbc.gridy = 2; gbc.gridwidth = 1;
-        add(new JLabel("Valor:"), gbc);
+        // Valor
+        f.gridy = 6;
+        form.add(new JLabel("Valor:"), f);
+        tfValor = new JTextField();
+        f.gridy = 7;
+        form.add(tfValor, f);
 
-        tfvalor = new JTextField();
-        gbc.gridx = 1;
-        add(tfvalor, gbc);
+        // Desenvolvedor
+        f.gridy = 8;
+        form.add(new JLabel("Desenvolvedor:"), f);
+        tfDesenvolvedor = new JTextField();
+        f.gridy = 9;
+        form.add(tfDesenvolvedor, f);
 
-        // linha 2 – Desenvolvedor
-        gbc.gridx = 2;
-        add(new JLabel("Desenvolvedor:"), gbc);
+        // Botoes
+        f.gridy = 10;
+        f.fill = GridBagConstraints.NONE;
+        f.anchor = GridBagConstraints.CENTER;
+        f.gridwidth = 1;
+        JPanel btnRow = new JPanel();
+        btsv = new JButton("Salvar"); btsv.addActionListener(this);
+        btal = new JButton("Alterar"); btal.addActionListener(this);
+        btrm = new JButton("Apagar"); btrm.addActionListener(this);
+        btcn = new JButton("Limpar"); btcn.addActionListener(this);
+        btnRow.add(btsv); btnRow.add(btal); btnRow.add(btrm); btnRow.add(btcn);
+        form.add(btnRow, f);
 
-        tfdesenv = new JTextField();
-        gbc.gridx = 3;
-        add(tfdesenv, gbc);
+        // Criação de 3 linhas para centralizar o form
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 0.0;
+        gbc.weighty = 1.0;
+        add(createSpacer(), gbc);
 
-        // linha 3 – Botões
-        btsalvar = new JButton("Salvar");
-        btsalvar.addActionListener(this);
-        gbc.gridx = 0; gbc.gridy = 3;
-        add(btsalvar, gbc);
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.weighty = 0.0;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.gridwidth = 1;
+        gbc.weightx = 0.35;
+        add(form, gbc);
 
-        btalterar = new JButton("Alterar");
-        btalterar.addActionListener(this);
-        gbc.gridx = 1;
-        add(btalterar, gbc);
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.weighty = 1.0;
+        add(createSpacer(), gbc);
 
-        btremover = new JButton("Remover");
-        btremover.addActionListener(this);
-        gbc.gridx = 2;
-        add(btremover, gbc);
+        // Coluna a direita para a tabela
+        modeloTabela = new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Impede a edição direta na tabela
+            }
+        };
 
-        btcancelar = new JButton("Cancelar");
-        btcancelar.addActionListener(this);
-        gbc.gridx = 3;
-        add(btcancelar, gbc);
-
-        // linha 4 – Tabela
-        modeloTabela = new DefaultTableModel();
+        modeloTabela.addColumn("ID");
         modeloTabela.addColumn("Nome");
-        modeloTabela.addColumn("Gênero");
+        modeloTabela.addColumn("Genero");
         modeloTabela.addColumn("Valor");
         modeloTabela.addColumn("Desenvolvedor");
 
         tabela = new JTable(modeloTabela);
+        tabela.setRowHeight(22);
+        tabela.setAutoCreateRowSorter(true);
+        tabela.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting() && tabela.getSelectedRow() != -1) {
+                int modelRow = tabela.convertRowIndexToModel(tabela.getSelectedRow());
+                Object idVal = modeloTabela.getValueAt(modelRow, 0);
+
+                tfId.setEditable(false);
+
+                if (idVal != null) {  //Verificação do if vai mudar 
+                  int id = Integer.parseInt(idVal.toString());
+                  try {
+                    Jogo c = bd.getrJogo().buscar(id);
+                    tfId.setText(String.valueOf(c.getId()));
+                    tfNome.setText(c.getNome());
+                    tfGenero.setText(c.getGenero());
+                    tfValor.setText(String.valueOf(c.getValor()));
+                    tfDesenvolvedor.setText(c.getDesenvolvedor());
+                  } catch (IDNaoExistenteExeception ex) {
+                    System.err.println("Jogo não encontrado: " + id);
+                  }
+                }
+            }
+        });
 
         JScrollPane scroll = new JScrollPane(tabela);
-        gbc.gridx = 0; gbc.gridy = 4; gbc.gridwidth = 4;
-        gbc.weighty = 1; gbc.fill = GridBagConstraints.BOTH;
+        scroll.setBorder(BorderFactory.createTitledBorder("Jogos"));
+
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.gridheight = 3;
+        gbc.weightx = 0.65;
+        gbc.weighty = 1.0;
+        gbc.fill = GridBagConstraints.BOTH;
         add(scroll, gbc);
+
+        CarregarTabelodoBanco();
+    }
+
+    private void CarregarTabelodoBanco() {
+        modeloTabela.setRowCount(0);
+        if (bd == null || bd.getrJogo() == null) return;
+        for (Jogo c : bd.getrJogo().getEntidades()) { // Da erro no vsCode por causa do generico
+            modeloTabela.addRow(new Object[] {
+                c.getId(),
+                c.getNome(),
+                c.getGenero(),
+                c.getValor(),
+                c.getDesenvolvedor()
+            });
+        }
+    }
+
+    private JPanel createSpacer() {
+        JPanel p = new JPanel();
+        p.setOpaque(false);
+        return p;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
-        if (e.getSource() == btsalvar) {
-
-            modeloTabela.addRow(new Object[]{
-                tfnome.getText(),
-                tfgenero.getText(),
-                tfvalor.getText(),
-                tfdesenv.getText()
-            });
-
-        } else if (e.getSource() == btalterar) {
-
-            int linha = tabela.getSelectedRow();
-            if (linha >= 0) {
-                modeloTabela.setValueAt(tfnome.getText(), linha, 0);
-                modeloTabela.setValueAt(tfgenero.getText(), linha, 1);
-                modeloTabela.setValueAt(tfvalor.getText(), linha, 2);
-                modeloTabela.setValueAt(tfdesenv.getText(), linha, 3);
+        if (e.getSource() == btsv) {
+            
+            int id; 
+            try { id = Integer.parseInt(tfId.getText().trim()); } //Revisar isso que foi gerado, tem que colocar a nossa exceção a ser criada
+            catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "ID inválido. Digite um número inteiro.", "Erro", JOptionPane.ERROR_MESSAGE);
+                return;
             }
 
-        } else if (e.getSource() == btremover) {
+            if (bd.getrJogo().idExiste(id)) {
+                JOptionPane.showMessageDialog(this, "ID já existe.", "Erro", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
-            int linha = tabela.getSelectedRow();
-            if (linha >= 0)
-                modeloTabela.removeRow(linha);
+            float valor;
+            try {
+            valor = Float.parseFloat(tfValor.getText().trim());}
+             catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Valor inválido. Digite um números.", "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
+             }
 
-        } else if (e.getSource() == btcancelar) {
+            Jogo f = new Jogo(tfDesenvolvedor.getText(),tfNome.getText(), tfGenero.getText(),valor,id);
+            bd.getrJogo().inserir(f);
+            modeloTabela.addRow(new Object[] { id, f.getNome(), f.getGenero(), f.getValor(), f.getDesenvolvedor() });
+            LimpaCampos();
 
-            tfnome.setText("");
-            tfgenero.setText("");
-            tfvalor.setText("");
-            tfdesenv.setText("");
+        } else if (e.getSource() == btal) {
+             int sel = tabela.getSelectedRow();
+            if (sel == -1) return;
+            int modelIndex = tabela.convertRowIndexToModel(sel);
+
+            int id;
+            try { id = Integer.parseInt(tfId.getText().trim()); } 
+            catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "ID inválido. Digite um número inteiro.", "Erro", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            float valor;
+            try {
+            valor = Float.parseFloat(tfValor.getText().trim());}
+             catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Valor inválido. Digite um números.", "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
+             }
+
+            boolean ok = false;
+            Jogo f = new Jogo(tfDesenvolvedor.getText(),tfNome.getText(), tfGenero.getText(),valor,id);
+            if (bd != null && bd.getrJogo() != null) {
+                ok = bd.getrJogo().alterar(f);
+                if (!ok) {  
+                    JOptionPane.showMessageDialog(this, "Falha ao alterar — ID não encontrado.", "Erro", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            }
+            if(ok){ // Se foi alterado atualiza a tabela e limpa os campos
+                CarregarTabelodoBanco();
+                tabela.clearSelection();
+                LimpaCampos();
+            }
+
+        } else if (e.getSource() == btrm) {
+            int sel = tabela.getSelectedRow();
+            if (sel == -1) return;
+            int modelIndex = tabela.convertRowIndexToModel(sel);
+            Object idVal = modeloTabela.getValueAt(modelIndex, 0);
+            if (idVal == null) return;
+            int id = Integer.parseInt(idVal.toString());
+            if (bd != null && bd.getrJogo() != null) {
+                boolean ok = bd.getrJogo().excluir(id);
+                if (!ok) {  
+                    JOptionPane.showMessageDialog(this, "Falha ao excluir — ID não encontrado.", "Erro", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            }
+            modeloTabela.removeRow(modelIndex);
+            LimpaCampos();
+
+        } else if (e.getSource() == btcn) {
+            LimpaCampos();
             tabela.clearSelection();
         }
     }
 
-    public static void main(String[] args) {
-        new JJogo().setVisible(true);
+    private void LimpaCampos() {
+        tfId.setText("");
+        tfId.setEditable(true);
+        tfNome.setText("");
+        tfGenero.setText("");
+        tfValor.setText("");
+        tfDesenvolvedor.setText("");
     }
+
 }
