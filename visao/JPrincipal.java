@@ -94,9 +94,9 @@ public class JPrincipal extends JFrame {
 
         switch (cat) {
              case "ALUGUEL":
-                //JAluga ja = new JAluga(this.bd);
-                //ja.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                //ja.setVisible(true);
+                JAluga ja = new JAluga(this.bd);
+                ja.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                ja.setVisible(true);
 
                 break;
             case "CLIENTE":
