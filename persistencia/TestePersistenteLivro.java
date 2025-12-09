@@ -6,69 +6,54 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class TestePersistenteLivro {
 
-    // -----------------------
-    //        INSERIR
-    // -----------------------
-
+    //inserir
     @Test
-    public void testInserirIdNovo() {
+    public void testeInserirIdNovo() {
         Persistente<Livro> p = new Persistente<>();
 
-        Livro l = new Livro("A", "Ficção", 20f, "Autor", 1);
+        Livro l = new Livro("Harry Potter", "ficção", 20f, "nao sei", 1);
         boolean resultado = p.inserir(l);
-
         assertTrue(resultado);
         assertEquals(l, p.getEntidades().get(0));
     }
 
     @Test
-    public void testInserirIdExistente() {
+    public void testeInserirIdExistente() {
         Persistente<Livro> p = new Persistente<>();
 
-        p.inserir(new Livro("A", "Ficção", 20f, "Autor", 1));
-        boolean resultado = p.inserir(new Livro("B", "Drama", 30f, "Outro", 1));
-
+        p.inserir(new Livro("a", "ficção", 20f, "autor", 1));
+        boolean resultado = p.inserir(new Livro("b", "drama", 30f, "outro", 1));
         assertFalse(resultado);
-        assertEquals(1, p.getEntidades().size()); // não inseriu o novo
+        assertEquals(1, p.getEntidades().size()); 
     }
-
-    // -----------------------
-    //        ALTERAR
-    // -----------------------
-
+    
+    //alterar
     @Test
-    public void testAlterarIdExistente() {
+    public void testeAlterarIdExistente() {
         Persistente<Livro> p = new Persistente<>();
 
-        p.inserir(new Livro("A", "Gênero", 20f, "Autor", 1));
-
-        boolean resultado = p.alterar(new Livro("Alterado", "Outro", 99f, "Novo Autor", 1));
-
+        p.inserir(new Livro("a", "gênero", 20f, "autor", 1));
+        boolean resultado = p.alterar(new Livro("alterado", "outro", 99f, "novo", 1));
         assertTrue(resultado);
-        assertEquals("Alterado", p.getEntidades().get(0).getNome());
-        assertEquals("Outro", p.getEntidades().get(0).getGenero());
+        assertEquals("alterado", p.getEntidades().get(0).getNome());
+        assertEquals("outro", p.getEntidades().get(0).getGenero());
     }
 
     @Test
-    public void testAlterarIdInexistente() {
+    public void testeAlterarIdInexistente() {
         Persistente<Livro> p = new Persistente<>();
 
-        boolean resultado = p.alterar(new Livro("Nada", "X", 0f, "Y", 99));
-
+        boolean resultado = p.alterar(new Livro("nada", "x", 0f, "y", 99));
         assertFalse(resultado);
         assertEquals(0, p.getEntidades().size());
     }
 
-    // -----------------------
-    //        EXCLUIR
-    // -----------------------
-
+    //excluir
     @Test
     public void testExcluirIdExistente() {
         Persistente<Livro> p = new Persistente<>();
 
-        p.inserir(new Livro("A", "G", 10f, "Autor", 1));
-
+        p.inserir(new Livro("a", "g", 10f, "autor", 1));
         boolean resultado = p.excluir(1);
 
         assertTrue(resultado);
@@ -84,19 +69,14 @@ public class TestePersistenteLivro {
         assertFalse(resultado);
     }
 
-    // -----------------------
-    //        BUSCAR
-    // -----------------------
-
+    //buscar
     @Test
     public void testBuscarIdExistente() throws IDNaoExistenteExeception {
         Persistente<Livro> p = new Persistente<>();
 
-        Livro l = new Livro("A", "G", 20f, "Autor", 1);
+        Livro l = new Livro("a", "g", 20f, "autor", 1);
         p.inserir(l);
-
         Livro achado = p.buscar(1);
-
         assertEquals(l, achado);
     }
 
