@@ -94,9 +94,9 @@ public class JPrincipal extends JFrame {
 
         switch (cat) {
              case "ALUGUEL":
-                // JAluga ja = new JAluga(this.bd);
-                // ja.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                // ja.setVisible(true);
+                JAluga ja = new JAluga(this.bd);
+                ja.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                ja.setVisible(true);
 
                 break;
             case "CLIENTE":
@@ -123,13 +123,13 @@ public class JPrincipal extends JFrame {
                 jl.setVisible(true);
 
                 break;
-            /*default:
-                JOptionPane.showMessageDialog(
-                        this,
-                        "Escolha uma categoria válida.",
-                        "Atenção",
-                        JOptionPane.WARNING_MESSAGE
-                );*/
+            // /*default:
+            //     JOptionPane.showMessageDialog(
+            //             this,
+            //             "Escolha uma categoria válida.",
+            //             "Atenção",
+            //             JOptionPane.WARNING_MESSAGE
+            //     );*/
         }
     }
 
