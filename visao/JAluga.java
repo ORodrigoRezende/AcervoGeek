@@ -1,14 +1,15 @@
 package visao;
 
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.time.LocalDate;
-import java.util.List;
 import javax.swing.BorderFactory;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -16,17 +17,18 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import modelo.Aluga;
 import modelo.Cliente;
-import modelo.Produto;
 import persistencia.BancodeDados;
 import persistencia.IDNaoExistenteExeception;
 
-public class JAluga extends JFrame implements ActionListener {
+public class JAluga extends JFrame implements java.awt.event.ActionListener {
 
     private BancodeDados bd;
-    private JTextField tfId, tfClienteId, tfData, tfValorTotal;
+    private JTextField tfId, tfData, tfValorTotal;
+    private JComboBox<Cliente> cbClientes;
     private JButton btsv, btal, btrm, btcn;
     private DefaultTableModel modeloTabela;
     private JTable tabela;
@@ -35,7 +37,7 @@ public class JAluga extends JFrame implements ActionListener {
         super("Cadastro de Aluguéis");
         this.bd = bd;
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        setSize(1000, 600);
+        setSize(1280, 720);
         setLocationRelativeTo(null);
         setLayout(new GridBagLayout());
 
@@ -56,12 +58,12 @@ public class JAluga extends JFrame implements ActionListener {
         f.gridy = 1;
         form.add(tfId, f);
 
-        // Cliente ID
+        // Cliente (combo)
         f.gridy = 2;
-        form.add(new JLabel("ID Cliente:"), f);
-        tfClienteId = new JTextField();
+        form.add(new JLabel("Cliente:"), f);
+        cbClientes = new JComboBox<>();
         f.gridy = 3;
-        form.add(tfClienteId, f);
+        form.add(cbClientes, f);
 
         // Data (read-only)
         f.gridy = 4;
@@ -113,7 +115,52 @@ public class JAluga extends JFrame implements ActionListener {
         gbc.weightx = 0.65; gbc.gridheight = 1;
         add(scroll, gbc);
 
+        // listener para seleção na tabela
+        tabela.getSelectionModel().addListSelectionListener((ListSelectionListener) e -> {
+            if (!e.getValueIsAdjusting() && tabela.getSelectedRow() != -1) {
+                int modelRow = tabela.convertRowIndexToModel(tabela.getSelectedRow());
+                Object idVal = modeloTabela.getValueAt(modelRow, 0);
+                if (idVal != null) {
+                    int id = Integer.parseInt(idVal.toString());
+                    try {
+                        Aluga a = bd.getrAluga().buscar(id);
+                        tfId.setText(String.valueOf(a.getId()));
+                        tfId.setEditable(false);
+                        // seleciona cliente no combo
+                        if (a.getCliente() != null) cbClientes.setSelectedItem(a.getCliente());
+                        tfData.setText(a.getDataAluguel().toString());
+                        tfValorTotal.setText(String.valueOf(a.getValorTotal()));
+                    } catch (IDNaoExistenteExeception ex) {
+                        System.err.println("Aluguel não encontrado: " + id);
+                    }
+                }
+            }
+        });
+
+        // popula combo e tabela
+        carregarClientes();
         carregarTabela();
+    }
+
+    private void carregarClientes() {
+        DefaultComboBoxModel<Cliente> model = new DefaultComboBoxModel<>();
+        if (bd != null && bd.getrCliente() != null) {
+            for (Cliente c : bd.getrCliente().getEntidades()) {
+                model.addElement(c);
+            }
+        }
+        cbClientes.setModel(model);
+        // mostra apenas o nome no combo
+        cbClientes.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(javax.swing.JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                if (value instanceof Cliente) {
+                    setText(((Cliente) value).getNome_do_cliente());
+                }
+                return this;
+            }
+        });
     }
 
     private void carregarTabela() {
@@ -128,23 +175,16 @@ public class JAluga extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(java.awt.event.ActionEvent e) {
         if (e.getSource() == btsv) {
-            // Salvar e abrir janela de itens
             int id;
             try { id = Integer.parseInt(tfId.getText().trim()); }
             catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(this, "ID inválido.", "Erro", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            int clienteId;
-            try { clienteId = Integer.parseInt(tfClienteId.getText().trim()); }
-            catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(this, "ID do cliente inválido.", "Erro", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            Cliente cliente;
-            try { cliente = bd.getrCliente().buscar(clienteId); }
-            catch (IDNaoExistenteExeception ex) {
-                JOptionPane.showMessageDialog(this, "Cliente não encontrado.", "Erro", JOptionPane.ERROR_MESSAGE);
+
+            Cliente cliente = (Cliente) cbClientes.getSelectedItem();
+            if (cliente == null) {
+                JOptionPane.showMessageDialog(this, "Selecione um cliente válido.", "Erro", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
@@ -156,43 +196,35 @@ public class JAluga extends JFrame implements ActionListener {
             Aluga a = new Aluga(id, cliente);
             bd.getrAluga().inserir(a);
             carregarTabela();
-            // abrir janela de itens para esse aluguel
-            new JItensAluga(bd, a).setVisible(true);
+            // abrir janela de itens para esse aluguel (passa this para atualizar depois)
+            new JItensAluga(bd, a, this).setVisible(true);
+
         } else if (e.getSource() == btal) {
-            // Alterar e abrir itens
             int id;
             try { id = Integer.parseInt(tfId.getText().trim()); }
             catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(this, "ID inválido.", "Erro", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            int clienteId;
-            try { clienteId = Integer.parseInt(tfClienteId.getText().trim()); }
-            catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(this, "ID do cliente inválido.", "Erro", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            Cliente cliente;
-            try { cliente = bd.getrCliente().buscar(clienteId); }
-            catch (IDNaoExistenteExeception ex) {
-                JOptionPane.showMessageDialog(this, "Cliente não encontrado.", "Erro", JOptionPane.ERROR_MESSAGE);
+
+            Cliente cliente = (Cliente) cbClientes.getSelectedItem();
+            if (cliente == null) {
+                JOptionPane.showMessageDialog(this, "Selecione um cliente válido.", "Erro", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
-            Aluga a = new Aluga(id, cliente);
-            boolean ok = bd.getrAluga().alterar(a);
-            if (!ok) {
-                JOptionPane.showMessageDialog(this, "Falha ao alterar — ID não encontrado.", "Erro", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            carregarTabela();
-            // abre janela de itens
             try {
-                Aluga atualizado = bd.getrAluga().buscar(id);
-                new JItensAluga(bd, atualizado).setVisible(true);
+                Aluga existente = bd.getrAluga().buscar(id);
+                existente.setCliente(cliente);
+                // persistir alteração
+                bd.getrAluga().alterar(existente);
+                carregarTabela();
+                // abre janela de itens passando a aluga atualizada
+                new JItensAluga(bd, existente, this).setVisible(true);
             } catch (IDNaoExistenteExeception ex) {
-                // não deve acontecer
+                JOptionPane.showMessageDialog(this, "Falha ao alterar — ID não encontrado.", "Erro", JOptionPane.ERROR_MESSAGE);
             }
+
         } else if (e.getSource() == btrm) {
             int sel = tabela.getSelectedRow();
             if (sel == -1) return;
@@ -208,10 +240,18 @@ public class JAluga extends JFrame implements ActionListener {
             carregarTabela();
         } else if (e.getSource() == btcn) {
             tfId.setText("");
-            tfClienteId.setText("");
+            tfId.setEditable(true);
+            cbClientes.setSelectedIndex(-1);
             tfData.setText(LocalDate.now().toString());
             tfValorTotal.setText("0.0");
             tabela.clearSelection();
         }
+    }
+
+    // método público para ser chamado por JItensAluga após alteração de itens
+    public void refreshAfterItens(Aluga a) {
+        carregarClientes();
+        carregarTabela();
+        tfValorTotal.setText(String.valueOf(a.getValorTotal()));
     }
 }

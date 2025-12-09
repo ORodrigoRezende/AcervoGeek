@@ -7,6 +7,7 @@ public abstract class Produto extends Entidade{
     public Produto(int id, String nome,float valor){
         super(id);
         this.nome = nome;
+        this.valor = valor;
     }
     public String getNome() {
         return nome;

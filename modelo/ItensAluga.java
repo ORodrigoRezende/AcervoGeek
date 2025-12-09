@@ -21,6 +21,7 @@ public class ItensAluga extends Entidade {
 
     public void setItem(Produto item) {
         this.item = item;
+        recalcularValor();
     }
     public LocalDate getDataDevolucao() {
         return dataDevolucao;
@@ -35,6 +36,28 @@ public class ItensAluga extends Entidade {
 
     public void setDias(int dias) {
         this.dias = dias;
+        if (this.dataDevolucao == null) {
+            this.dataDevolucao = LocalDate.now().plusDays(dias);
+        } else {
+            this.dataDevolucao = this.dataDevolucao.minusDays(this.dias).plusDays(dias);
+        }
+        recalcularValor();
+    }
+
+    public double getValorTotal() {
+        return valorTotal;
+    }
+
+    public void setValorTotal(double valorTotal) {
+        this.valorTotal = valorTotal;
+    }
+
+    private void recalcularValor() {
+        if (item != null) {
+            this.valorTotal = item.getValor() * this.dias;
+        } else {
+            this.valorTotal = 0;
+        }
     }
 
     // @Override

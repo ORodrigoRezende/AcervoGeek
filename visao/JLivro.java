@@ -95,11 +95,26 @@ public class JLivro extends JFrame implements ActionListener {
         btnRow.add(btsv); btnRow.add(btal); btnRow.add(btrm); btnRow.add(btcn);
         form.add(btnRow, f);
 
-        // Adiciona formulário
-        gbc.gridx = 0; gbc.gridy = 1;
-        gbc.weighty = 0.0; gbc.fill = GridBagConstraints.BOTH;
+        // Adiciona formulário (centralizado verticalmente como JCliente)
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 0.0;
+        gbc.weighty = 1.0;
+        add(createSpacer(), gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.weighty = 0.0;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.gridwidth = 1;
         gbc.weightx = 0.35;
         add(form, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.weighty = 1.0;
+        add(createSpacer(), gbc);
 
         // --- TABELA ---
         modeloTabela = new DefaultTableModel() {
@@ -138,7 +153,7 @@ public class JLivro extends JFrame implements ActionListener {
                             tfAutor.setText(livroEncontrado.getAutor());
                         }
 
-                    } catch (IDNaoExistenteExeception ex) {
+                    } catch (persistencia.IDNaoExistenteExeception ex) {
                         System.err.println("Erro interno: ID na tabela não encontrado no banco.");
                     }
                 }
@@ -155,6 +170,13 @@ public class JLivro extends JFrame implements ActionListener {
         add(scroll, gbc);
 
         CarregarTabelodoBanco();
+    }
+
+    // helper igual ao JCliente para centralizar o form verticalmente
+    private JPanel createSpacer() {
+        JPanel p = new JPanel();
+        p.setOpaque(false);
+        return p;
     }
 
     private void CarregarTabelodoBanco() {

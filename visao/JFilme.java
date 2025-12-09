@@ -17,7 +17,6 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import modelo.Filme;
-import modelo.Produto;
 import persistencia.BancodeDados;
 import persistencia.IDNaoExistenteExeception;
 
@@ -70,7 +69,7 @@ public class JFilme extends JFrame implements ActionListener {
 
         // Valor
         f.gridy = 6;
-        form.add(new JLabel("Valor Diária:"), f);
+        form.add(new JLabel("Valor:"), f);
         tfValor = new JTextField();
         f.gridy = 7;
         form.add(tfValor, f);
@@ -94,54 +93,37 @@ public class JFilme extends JFrame implements ActionListener {
         btnRow.add(btsv); btnRow.add(btal); btnRow.add(btrm); btnRow.add(btcn);
         form.add(btnRow, f);
 
-        // Adiciona formulário na janela
-        gbc.gridx = 0; gbc.gridy = 1;
-        gbc.weighty = 0.0; gbc.fill = GridBagConstraints.BOTH;
+        // centralizar verticalmente (mesma técnica do JCliente)
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 0.0;
+        gbc.weighty = 1.0;
+        add(createSpacer(), gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.weighty = 0.0;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.gridwidth = 1;
         gbc.weightx = 0.35;
         add(form, gbc);
-        modeloTabela = new DefaultTableModel() {
-            @Override
-            public boolean isCellEditable(int row, int column) { return false; }
+
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.weighty = 1.0;
+        add(createSpacer(), gbc);
+
+        // Tabela à direita (mantém o restante do código que cria/insere a tabela)
+        // cria modelo e tabela (se ainda não existir)
+        modeloTabela = new DefaultTableModel(new Object[] { "ID", "Nome", "Genero", "Valor", "Diretor" }, 0) {
+            @Override public boolean isCellEditable(int row, int column) { return false; }
         };
-
-        modeloTabela.addColumn("ID");
-        modeloTabela.addColumn("Nome");
-        modeloTabela.addColumn("Genero");
-        modeloTabela.addColumn("Valor");
-        modeloTabela.addColumn("Diretor");
-
         tabela = new JTable(modeloTabela);
         tabela.setRowHeight(22);
         tabela.setAutoCreateRowSorter(true);
 
-        tabela.getSelectionModel().addListSelectionListener(e -> {
-            if (!e.getValueIsAdjusting() && tabela.getSelectedRow() != -1) {
-                int modelRow = tabela.convertRowIndexToModel(tabela.getSelectedRow());
-                Object idVal = modeloTabela.getValueAt(modelRow, 0);
-
-                if (idVal != null) {
-                    int id = Integer.parseInt(idVal.toString());
-                    try {
-                        Produto p = bd.getrProduto().buscar(id);
-
-                        if (p instanceof Filme) {
-                            Filme filmeEncontrado = (Filme) p;
-                            
-                            tfId.setText(String.valueOf(filmeEncontrado.getId()));
-                            tfId.setEditable(false); // Bloqueia ID na edição
-                            tfNome.setText(filmeEncontrado.getNome());
-                            tfGenero.setText(filmeEncontrado.getGenero());
-                            tfValor.setText(String.valueOf(filmeEncontrado.getValor()));
-                            tfDiretor.setText(filmeEncontrado.getDiretor());
-                        }
-
-                    } catch (IDNaoExistenteExeception ex) {
-                        System.err.println("Erro interno: ID na tabela não encontrado no banco.");
-                    }
-                }
-            }
-        });
-
+        // o 'scroll' é o JScrollPane que torna a tabela rolável
         JScrollPane scroll = new JScrollPane(tabela);
         scroll.setBorder(BorderFactory.createTitledBorder("Filmes Cadastrados"));
 
@@ -152,6 +134,12 @@ public class JFilme extends JFrame implements ActionListener {
         add(scroll, gbc);
 
         CarregarTabelodoBanco();
+    }
+
+    private JPanel createSpacer() {
+        JPanel p = new JPanel();
+        p.setOpaque(false);
+        return p;
     }
 
     private void CarregarTabelodoBanco() {

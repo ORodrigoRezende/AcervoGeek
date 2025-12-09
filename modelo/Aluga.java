@@ -33,7 +33,7 @@ public class Aluga extends Entidade {
     public void calcularValorTotal(){
         double total = 0;
         for(ItensAluga item : itensAluguel){
-            total += item.getItem().getValor() * item.getDias();
+            total += item.getValorTotal();
         }
         this.valorTotal = total;
     }
