@@ -5,7 +5,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List; // Import necessário
+import java.util.List; 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -17,7 +17,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import modelo.Livro;
-import modelo.Produto; // Import necessário para o Polimorfismo
+import modelo.Produto; 
 import persistencia.BancodeDados;
 import persistencia.IDNaoExistenteExeception;
 
@@ -32,7 +32,7 @@ public class JLivro extends JFrame implements ActionListener {
     public JLivro(BancodeDados bd) {
         super("Cadastro de Livros");
         this.bd = bd;
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE); // Fecha apenas a janela
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE); 
         setSize(1280, 720);
         setLocationRelativeTo(null); 
         setLayout(new GridBagLayout());
@@ -95,7 +95,6 @@ public class JLivro extends JFrame implements ActionListener {
         btnRow.add(btsv); btnRow.add(btal); btnRow.add(btrm); btnRow.add(btcn);
         form.add(btnRow, f);
 
-        // Adiciona formulário (centralizado verticalmente como JCliente)
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.weightx = 0.0;
@@ -172,7 +171,6 @@ public class JLivro extends JFrame implements ActionListener {
         CarregarTabelodoBanco();
     }
 
-    // helper igual ao JCliente para centralizar o form verticalmente
     private JPanel createSpacer() {
         JPanel p = new JPanel();
         p.setOpaque(false);

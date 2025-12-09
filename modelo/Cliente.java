@@ -54,8 +54,8 @@ public class Cliente extends Entidade{
         this.endereco = endereco;
     }
 
-    @Override
-    public String toString() {
-        return super.toString() + "\n Nome: " + nome_do_cliente + "\n Telefone: " + telefone_do_cliente + "\n CPF: "+ cpf + "\n Endereço:" + endereco + "\n";
-    }
+    // @Override
+    // public String toString() {
+    //     return super.toString() + "\n Nome: " + nome_do_cliente + "\n Telefone: " + telefone_do_cliente + "\n CPF: "+ cpf + "\n Endereço:" + endereco + "\n";
+    // }
 }

@@ -114,8 +114,6 @@ public class JFilme extends JFrame implements ActionListener {
         gbc.weighty = 1.0;
         add(createSpacer(), gbc);
 
-        // Tabela à direita (mantém o restante do código que cria/insere a tabela)
-        // cria modelo e tabela (se ainda não existir)
         modeloTabela = new DefaultTableModel(new Object[] { "ID", "Nome", "Genero", "Valor", "Diretor" }, 0) {
             @Override public boolean isCellEditable(int row, int column) { return false; }
         };
@@ -123,7 +121,6 @@ public class JFilme extends JFrame implements ActionListener {
         tabela.setRowHeight(22);
         tabela.setAutoCreateRowSorter(true);
 
-        // o 'scroll' é o JScrollPane que torna a tabela rolável
         JScrollPane scroll = new JScrollPane(tabela);
         scroll.setBorder(BorderFactory.createTitledBorder("Filmes Cadastrados"));
 

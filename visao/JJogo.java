@@ -5,7 +5,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List; // Import necessário
+import java.util.List; 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -17,7 +17,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import modelo.Jogo;
-import modelo.Produto; // Import necessário
+import modelo.Produto; 
 import persistencia.BancodeDados;
 import persistencia.IDNaoExistenteExeception;
 
@@ -32,7 +32,7 @@ public class JJogo extends JFrame implements ActionListener {
     public JJogo(BancodeDados bd) {
         super("Cadastro de Jogos");
         this.bd = bd;
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE); // Correção: Fecha só a janela
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE); 
         setSize(1280, 720);
         setLocationRelativeTo(null); 
         setLayout(new GridBagLayout());
@@ -95,7 +95,6 @@ public class JJogo extends JFrame implements ActionListener {
         btnRow.add(btsv); btnRow.add(btal); btnRow.add(btrm); btnRow.add(btcn);
         form.add(btnRow, f);
 
-        // --- centralizar verticalmente a coluna esquerda (igual JCliente) ---
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.weightx = 0.0;
@@ -141,7 +140,6 @@ public class JJogo extends JFrame implements ActionListener {
                 if (idVal != null) {
                     int id = Integer.parseInt(idVal.toString());
                     try {
-                        // 1. Busca na lista geral de Produtos
                         Produto p = bd.getrProduto().buscar(id);
 
                         // 2. Verifica se é Jogo e faz o Cast
@@ -178,7 +176,6 @@ public class JJogo extends JFrame implements ActionListener {
     private void CarregarTabelodoBanco() {
         modeloTabela.setRowCount(0);
         
-        // Correção: Usa o método filtrador de Jogos
         List<Jogo> listaJogos = bd.getListarJogos(); 
         
         for (Jogo j : listaJogos) {

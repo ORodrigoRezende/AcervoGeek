@@ -13,7 +13,7 @@ public class Persistente<T extends Entidade> {
     }
 
     public boolean  inserir(T r) {
-        if(idExiste(r.getId())) return false; //Verificação se o ID já existe
+        if(idExiste(r.getId())) return false; 
         entidades.add(r);
         return true;
     }

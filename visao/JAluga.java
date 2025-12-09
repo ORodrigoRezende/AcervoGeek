@@ -73,7 +73,7 @@ public class JAluga extends JFrame implements java.awt.event.ActionListener {
         f.gridy = 5;
         form.add(tfData, f);
 
-        // Valor total (read-only)
+        // Valor total
         f.gridy = 6;
         form.add(new JLabel("Valor Total:"), f);
         tfValorTotal = new JTextField("0.0");
@@ -115,7 +115,6 @@ public class JAluga extends JFrame implements java.awt.event.ActionListener {
         gbc.weightx = 0.65; gbc.gridheight = 1;
         add(scroll, gbc);
 
-        // listener para seleção na tabela
         tabela.getSelectionModel().addListSelectionListener((ListSelectionListener) e -> {
             if (!e.getValueIsAdjusting() && tabela.getSelectedRow() != -1) {
                 int modelRow = tabela.convertRowIndexToModel(tabela.getSelectedRow());
@@ -137,7 +136,6 @@ public class JAluga extends JFrame implements java.awt.event.ActionListener {
             }
         });
 
-        // popula combo e tabela
         carregarClientes();
         carregarTabela();
     }
@@ -150,7 +148,6 @@ public class JAluga extends JFrame implements java.awt.event.ActionListener {
             }
         }
         cbClientes.setModel(model);
-        // mostra apenas o nome no combo
         cbClientes.setRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(javax.swing.JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
@@ -196,7 +193,6 @@ public class JAluga extends JFrame implements java.awt.event.ActionListener {
             Aluga a = new Aluga(id, cliente);
             bd.getrAluga().inserir(a);
             carregarTabela();
-            // abrir janela de itens para esse aluguel (passa this para atualizar depois)
             new JItensAluga(bd, a, this).setVisible(true);
 
         } else if (e.getSource() == btal) {
@@ -216,10 +212,8 @@ public class JAluga extends JFrame implements java.awt.event.ActionListener {
             try {
                 Aluga existente = bd.getrAluga().buscar(id);
                 existente.setCliente(cliente);
-                // persistir alteração
                 bd.getrAluga().alterar(existente);
                 carregarTabela();
-                // abre janela de itens passando a aluga atualizada
                 new JItensAluga(bd, existente, this).setVisible(true);
             } catch (IDNaoExistenteExeception ex) {
                 JOptionPane.showMessageDialog(this, "Falha ao alterar — ID não encontrado.", "Erro", JOptionPane.ERROR_MESSAGE);
@@ -248,7 +242,6 @@ public class JAluga extends JFrame implements java.awt.event.ActionListener {
         }
     }
 
-    // método público para ser chamado por JItensAluga após alteração de itens
     public void refreshAfterItens(Aluga a) {
         carregarClientes();
         carregarTabela();

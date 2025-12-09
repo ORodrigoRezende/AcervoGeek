@@ -20,8 +20,8 @@ public class JItensAluga extends JFrame implements java.awt.event.ActionListener
     private Aluga aluguel;
     private JAluga parent;
 
-    private JComboBox<String> cbTipo;            // Filme / Livro / Jogo
-    private JComboBox<Produto> cbProdutos;       // produtos filtrados pelo tipo
+    private JComboBox<String> cbTipo;            
+    private JComboBox<Produto> cbProdutos;       
     private JTextField tfDias;
     private JButton btAdd, btFechar, btRemover;
 
@@ -78,7 +78,6 @@ public class JItensAluga extends JFrame implements java.awt.event.ActionListener
         gbc.gridy = 7; add(btRemover, gbc);
         gbc.gridy = 8; add(btFechar, gbc);
 
-        // Tabela (padrão das outras janelas)
         modeloTabela = new DefaultTableModel(new Object[] { "ID Item", "Produto", "Tipo", "Dias", "Valor" }, 0) {
             @Override public boolean isCellEditable(int row, int column) { return false; }
         };
@@ -93,12 +92,10 @@ public class JItensAluga extends JFrame implements java.awt.event.ActionListener
         gbc.weightx = 1.0; gbc.weighty = 1.0;
         add(scroll, gbc);
 
-        // inicializa produtos e tabela
         atualizarProdutosPorTipo();
         carregarTabela();
     }
 
-    // popula cbProdutos segundo tipo selecionado
     private void atualizarProdutosPorTipo() {
         String tipo = (String) cbTipo.getSelectedItem();
         DefaultComboBoxModel<Produto> model = new DefaultComboBoxModel<>();
@@ -151,7 +148,6 @@ public class JItensAluga extends JFrame implements java.awt.event.ActionListener
 
             int itemId = aluguel.getItensAluguel().size() + 1;
             aluguel.adicionarItem(p, dias, itemId);
-            // recalcula e persiste
             aluguel.calcularValorTotal();
             bd.getrAluga().alterar(aluguel);
             carregarTabela();
@@ -161,7 +157,6 @@ public class JItensAluga extends JFrame implements java.awt.event.ActionListener
             if (sel == -1) { JOptionPane.showMessageDialog(this, "Selecione um item na tabela para remover."); return; }
             int modelRow = tabela.convertRowIndexToModel(sel);
             int idItem = (int) modeloTabela.getValueAt(modelRow, 0);
-            // encontra e remove por id
             ItensAluga alvo = null;
             for (ItensAluga it : new ArrayList<>(aluguel.getItensAluguel())) {
                 if (it.getId() == idItem) { alvo = it; break; }

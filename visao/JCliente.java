@@ -33,7 +33,7 @@ public class JCliente extends JFrame implements ActionListener {
         this.bd = bd;
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(1280, 720);
-        setLocationRelativeTo(null); // Coloca o painel no meio da tela
+        setLocationRelativeTo(null); 
         setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints(); //Cria um grid
@@ -142,7 +142,7 @@ public class JCliente extends JFrame implements ActionListener {
 
                 tfId.setEditable(false);
 
-                if (idVal != null) {  //Verificação do if vai mudar 
+                if (idVal != null) { 
                   int id = Integer.parseInt(idVal.toString());
                   try {
                     Cliente c = bd.getrCliente().buscar(id);
@@ -175,7 +175,7 @@ public class JCliente extends JFrame implements ActionListener {
     private void CarregarTabelodoBanco() {
         modeloTabela.setRowCount(0);
         if (bd == null || bd.getrCliente() == null) return;
-        for (Cliente c : bd.getrCliente().getEntidades()) { // Da erro no vsCode por causa do generico
+        for (Cliente c : bd.getrCliente().getEntidades()) { 
             modeloTabela.addRow(new Object[] {
                 c.getId(),
                 c.getNome_do_cliente(),
@@ -197,7 +197,7 @@ public class JCliente extends JFrame implements ActionListener {
         if (e.getSource() == btsv) {
             
             int id; 
-            try { id = Integer.parseInt(tfId.getText().trim()); } //Revisar isso que foi gerado, tem que colocar a nossa exceção a ser criada
+            try { id = Integer.parseInt(tfId.getText().trim()); } 
             catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(this, "ID inválido. Digite um número inteiro.", "Erro", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -220,7 +220,7 @@ public class JCliente extends JFrame implements ActionListener {
             int modelIndex = tabela.convertRowIndexToModel(sel);
 
             int id;
-            try { id = Integer.parseInt(tfId.getText().trim()); }  //Revisar isso que foi gerado, tem que colocar a nossa exceção a ser criada
+            try { id = Integer.parseInt(tfId.getText().trim()); }  
             catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(this, "ID inválido. Digite um número inteiro.", "Erro", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -230,7 +230,7 @@ public class JCliente extends JFrame implements ActionListener {
             Cliente c = new Cliente(id, tfNome.getText(), tfTel.getText(), tfCpf.getText(), tfEnd.getText());
             if (bd != null && bd.getrCliente() != null) {
                 ok = bd.getrCliente().alterar(c);
-                if (!ok) {  //Revisar isso que foi gerado, tem que colocar a nossa exceção a ser criada
+                if (!ok) { 
                     JOptionPane.showMessageDialog(this, "Falha ao alterar — ID não encontrado.", "Erro", JOptionPane.ERROR_MESSAGE);
                     return;
                 }

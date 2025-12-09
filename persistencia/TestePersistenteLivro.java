@@ -50,7 +50,7 @@ public class TestePersistenteLivro {
 
     //excluir
     @Test
-    public void testExcluirIdExistente() {
+    public void testeExcluirIdExistente() {
         Persistente<Livro> p = new Persistente<>();
 
         p.inserir(new Livro("a", "g", 10f, "autor", 1));
@@ -61,17 +61,16 @@ public class TestePersistenteLivro {
     }
 
     @Test
-    public void testExcluirIdInexistente() {
+    public void testeExcluirIdInexistente() {
         Persistente<Livro> p = new Persistente<>();
 
         boolean resultado = p.excluir(55);
-
         assertFalse(resultado);
     }
 
     //buscar
     @Test
-    public void testBuscarIdExistente() throws IDNaoExistenteExeception {
+    public void testeBuscarIdExistente() throws IDNaoExistenteExeception {
         Persistente<Livro> p = new Persistente<>();
 
         Livro l = new Livro("a", "g", 20f, "autor", 1);
@@ -81,7 +80,7 @@ public class TestePersistenteLivro {
     }
 
     @Test
-    public void testBuscarIdInexistente() {
+    public void testeBuscarIdInexistente() {
         Persistente<Livro> p = new Persistente<>();
 
         assertThrows(
