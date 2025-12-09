@@ -59,5 +59,16 @@ public class Aluga extends Entidade {
     public List<ItensAluga> getItensAluguel() {
         return itensAluguel;
     }
+    
+    // retorna o próximo id válido para um item (maior id atual + 1)
+    public int gerarProximoItemId() {
+        int max = 0;
+        if (itensAluguel != null) {
+            for (ItensAluga it : itensAluguel) {
+                if (it != null && it.getId() > max) max = it.getId();
+            }
+        }
+        return max + 1;
+    }
 
 }

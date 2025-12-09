@@ -146,7 +146,8 @@ public class JItensAluga extends JFrame implements java.awt.event.ActionListener
             try { dias = Integer.parseInt(tfDias.getText().trim()); if (dias <= 0) throw new NumberFormatException(); }
             catch (NumberFormatException ex) { JOptionPane.showMessageDialog(this, "Dias inválido."); return; }
 
-            int itemId = aluguel.getItensAluguel().size() + 1;
+
+            int itemId = aluguel.gerarProximoItemId();
             aluguel.adicionarItem(p, dias, itemId);
             aluguel.calcularValorTotal();
             bd.getrAluga().alterar(aluguel);
