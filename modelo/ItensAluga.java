@@ -1,23 +1,32 @@
 package modelo;
+import java.time.LocalDate;
 
 public class ItensAluga extends Entidade {
-    private Entidade item;   
-    private int dias;  //Duração do aluguel     
-    private double valor;
+    private Produto item;
+    private LocalDate dataDevolucao;   
+    private int dias;     
+    private double valorTotal;
 
-    public ItensAluga(int id, Entidade item, int dias, double valor) {
+    public ItensAluga(int id, Produto item, int dias,LocalDate dataInicio) {
         super(id);
         this.item = item;
         this.dias = dias;
-        this.valor = valor;
+        this.dataDevolucao = dataInicio.plusDays(dias);
+        this.valorTotal = item.getValor() * dias;
     }
 
-    public Entidade getItem() {
+    public Produto getItem() {
         return item;
     }
 
-    public void setItem(Entidade item) {
+    public void setItem(Produto item) {
         this.item = item;
+    }
+    public LocalDate getDataDevolucao() {
+        return dataDevolucao;
+    }
+    public void setDataDevolucao(LocalDate dataDevolucao) {
+        this.dataDevolucao = dataDevolucao;
     }
 
     public int getDias() {
@@ -28,18 +37,10 @@ public class ItensAluga extends Entidade {
         this.dias = dias;
     }
 
-    public double getValor() {
-        return valor;
-    }
-
-    public void setValor(double valor) {
-        this.valor = valor;
-    }
-
-    @Override
-    public String toString() {
-        return "\nItem alugado: " + item.toString() + 
-               "\n | Dias: " + dias + 
-               " | Valor: R$ " + valor + " |\n";
-    }
+    // @Override
+    // public String toString() {
+    //     return "\nItem alugado: " + item.toString() + 
+    //            "\n | Dias: " + dias + 
+    //            " | Valor: R$ " + valor + " |\n";
+    // }
 }

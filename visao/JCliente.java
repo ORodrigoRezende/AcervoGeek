@@ -22,7 +22,7 @@ import persistencia.IDNaoExistenteExeception;
 
 public class JCliente extends JFrame implements ActionListener {
     
-    private BancodeDados bd; //Cria uma copia do banco de dados
+    private BancodeDados bd; 
     private JTextField tfId, tfNome, tfTel, tfCpf, tfEnd; //Campos de texto
     private JButton btsv, btal, btrm, btcn; //Botoes
     private DefaultTableModel modeloTabela;

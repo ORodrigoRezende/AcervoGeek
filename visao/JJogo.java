@@ -5,6 +5,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List; // Import necessário
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,29 +17,30 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import modelo.Jogo;
+import modelo.Produto; // Import necessário
 import persistencia.BancodeDados;
 import persistencia.IDNaoExistenteExeception;
 
 public class JJogo extends JFrame implements ActionListener {
 
-    private BancodeDados bd; //Cria uma copia do banco de dados
-    private JTextField tfId, tfNome, tfGenero, tfValor, tfDesenvolvedor; //Campos de texto
-    private JButton btsv, btal, btrm, btcn; //Botoes
+    private BancodeDados bd; 
+    private JTextField tfId, tfNome, tfGenero, tfValor, tfDesenvolvedor; 
+    private JButton btsv, btal, btrm, btcn; 
     private DefaultTableModel modeloTabela;
     private JTable tabela;
 
     public JJogo(BancodeDados bd) {
         super("Cadastro de Jogos");
         this.bd = bd;
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE); // Correção: Fecha só a janela
         setSize(1280, 720);
-        setLocationRelativeTo(null); // Coloca o painel no meio da tela
+        setLocationRelativeTo(null); 
         setLayout(new GridBagLayout());
 
-        GridBagConstraints gbc = new GridBagConstraints(); //Cria um grid
+        GridBagConstraints gbc = new GridBagConstraints(); 
         gbc.insets = new Insets(8, 8, 8, 8);
 
-        // Coluna Esquerda para escrever os dados
+        // --- FORMULÁRIO ---
         JPanel form = new JPanel(new GridBagLayout());
         form.setBorder(BorderFactory.createTitledBorder("Dados do Jogo"));
         GridBagConstraints f = new GridBagConstraints();
@@ -47,9 +49,7 @@ public class JJogo extends JFrame implements ActionListener {
         f.weightx = 1.0;
 
         // ID
-        f.gridx = 0;
-        f.gridy = 0;
-        f.gridwidth = 1;
+        f.gridx = 0; f.gridy = 0;
         form.add(new JLabel("ID:"), f);
         tfId = new JTextField();
         f.gridy = 1;
@@ -62,7 +62,7 @@ public class JJogo extends JFrame implements ActionListener {
         f.gridy = 3;
         form.add(tfNome, f);
 
-        //Genero
+        // Genero
         f.gridy = 4;
         form.add(new JLabel("Genero:"), f);
         tfGenero = new JTextField();
@@ -83,11 +83,10 @@ public class JJogo extends JFrame implements ActionListener {
         f.gridy = 9;
         form.add(tfDesenvolvedor, f);
 
-        // Botoes
+        // Botões
         f.gridy = 10;
         f.fill = GridBagConstraints.NONE;
         f.anchor = GridBagConstraints.CENTER;
-        f.gridwidth = 1;
         JPanel btnRow = new JPanel();
         btsv = new JButton("Salvar"); btsv.addActionListener(this);
         btal = new JButton("Alterar"); btal.addActionListener(this);
@@ -96,33 +95,16 @@ public class JJogo extends JFrame implements ActionListener {
         btnRow.add(btsv); btnRow.add(btal); btnRow.add(btrm); btnRow.add(btcn);
         form.add(btnRow, f);
 
-        // Criação de 3 linhas para centralizar o form
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.weightx = 0.0;
-        gbc.weighty = 1.0;
-        add(createSpacer(), gbc);
-
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.weighty = 0.0;
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.anchor = GridBagConstraints.CENTER;
-        gbc.gridwidth = 1;
+        // Adiciona formulário
+        gbc.gridx = 0; gbc.gridy = 1;
+        gbc.weighty = 0.0; gbc.fill = GridBagConstraints.BOTH;
         gbc.weightx = 0.35;
         add(form, gbc);
 
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.weighty = 1.0;
-        add(createSpacer(), gbc);
-
-        // Coluna a direita para a tabela
-        modeloTabela = new DefaultTableModel(){
+        // --- TABELA ---
+        modeloTabela = new DefaultTableModel() {
             @Override
-            public boolean isCellEditable(int row, int column) {
-                return false; // Impede a edição direta na tabela
-            }
+            public boolean isCellEditable(int row, int column) { return false; }
         };
 
         modeloTabela.addColumn("ID");
@@ -134,37 +116,44 @@ public class JJogo extends JFrame implements ActionListener {
         tabela = new JTable(modeloTabela);
         tabela.setRowHeight(22);
         tabela.setAutoCreateRowSorter(true);
+
+        // Listener da Tabela
         tabela.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting() && tabela.getSelectedRow() != -1) {
                 int modelRow = tabela.convertRowIndexToModel(tabela.getSelectedRow());
                 Object idVal = modeloTabela.getValueAt(modelRow, 0);
 
-                tfId.setEditable(false);
+                if (idVal != null) {
+                    int id = Integer.parseInt(idVal.toString());
+                    try {
+                        // 1. Busca na lista geral de Produtos
+                        Produto p = bd.getrProduto().buscar(id);
 
-                if (idVal != null) {  //Verificação do if vai mudar 
-                  int id = Integer.parseInt(idVal.toString());
-                  try {
-                    Jogo c = bd.getrJogo().buscar(id);
-                    tfId.setText(String.valueOf(c.getId()));
-                    tfNome.setText(c.getNome());
-                    tfGenero.setText(c.getGenero());
-                    tfValor.setText(String.valueOf(c.getValor()));
-                    tfDesenvolvedor.setText(c.getDesenvolvedor());
-                  } catch (IDNaoExistenteExeception ex) {
-                    System.err.println("Jogo não encontrado: " + id);
-                  }
+                        // 2. Verifica se é Jogo e faz o Cast
+                        if (p instanceof Jogo) {
+                            Jogo jogoEncontrado = (Jogo) p;
+                            
+                            tfId.setText(String.valueOf(jogoEncontrado.getId()));
+                            tfId.setEditable(false);
+                            tfNome.setText(jogoEncontrado.getNome());
+                            tfGenero.setText(jogoEncontrado.getGenero());
+                            tfValor.setText(String.valueOf(jogoEncontrado.getValor()));
+                            tfDesenvolvedor.setText(jogoEncontrado.getDesenvolvedor());
+                        }
+
+                    } catch (IDNaoExistenteExeception ex) {
+                        System.err.println("Erro interno: ID na tabela não encontrado no banco.");
+                    }
                 }
             }
         });
 
         JScrollPane scroll = new JScrollPane(tabela);
-        scroll.setBorder(BorderFactory.createTitledBorder("Jogos"));
+        scroll.setBorder(BorderFactory.createTitledBorder("Jogos Cadastrados"));
 
-        gbc.gridx = 1;
-        gbc.gridy = 0;
+        gbc.gridx = 1; gbc.gridy = 0;
         gbc.gridheight = 3;
-        gbc.weightx = 0.65;
-        gbc.weighty = 1.0;
+        gbc.weightx = 0.65; gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.BOTH;
         add(scroll, gbc);
 
@@ -173,105 +162,94 @@ public class JJogo extends JFrame implements ActionListener {
 
     private void CarregarTabelodoBanco() {
         modeloTabela.setRowCount(0);
-        if (bd == null || bd.getrJogo() == null) return;
-        for (Jogo c : bd.getrJogo().getEntidades()) { // Da erro no vsCode por causa do generico
+        
+        // Correção: Usa o método filtrador de Jogos
+        List<Jogo> listaJogos = bd.getListarJogos(); 
+        
+        for (Jogo j : listaJogos) {
             modeloTabela.addRow(new Object[] {
-                c.getId(),
-                c.getNome(),
-                c.getGenero(),
-                c.getValor(),
-                c.getDesenvolvedor()
+                j.getId(),
+                j.getNome(),
+                j.getGenero(),
+                j.getValor(),
+                j.getDesenvolvedor()
             });
         }
     }
 
-    private JPanel createSpacer() {
-        JPanel p = new JPanel();
-        p.setOpaque(false);
-        return p;
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
+        
+        // --- SALVAR ---
         if (e.getSource() == btsv) {
-            
-            int id; 
-            try { id = Integer.parseInt(tfId.getText().trim()); } //Revisar isso que foi gerado, tem que colocar a nossa exceção a ser criada
-            catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(this, "ID inválido. Digite um número inteiro.", "Erro", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            if (bd.getrJogo().idExiste(id)) {
-                JOptionPane.showMessageDialog(this, "ID já existe.", "Erro", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            float valor;
             try {
-            valor = Float.parseFloat(tfValor.getText().trim());}
-             catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Valor inválido. Digite um números.", "Erro", JOptionPane.ERROR_MESSAGE);
-            return;
-             }
-
-            Jogo f = new Jogo(tfDesenvolvedor.getText(),tfNome.getText(), tfGenero.getText(),valor,id);
-            bd.getrJogo().inserir(f);
-            modeloTabela.addRow(new Object[] { id, f.getNome(), f.getGenero(), f.getValor(), f.getDesenvolvedor() });
-            LimpaCampos();
-
-        } else if (e.getSource() == btal) {
-             int sel = tabela.getSelectedRow();
-            if (sel == -1) return;
-            int modelIndex = tabela.convertRowIndexToModel(sel);
-
-            int id;
-            try { id = Integer.parseInt(tfId.getText().trim()); } 
-            catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(this, "ID inválido. Digite um número inteiro.", "Erro", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            float valor;
-            try {
-            valor = Float.parseFloat(tfValor.getText().trim());}
-             catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Valor inválido. Digite um números.", "Erro", JOptionPane.ERROR_MESSAGE);
-            return;
-             }
-
-            boolean ok = false;
-            Jogo f = new Jogo(tfDesenvolvedor.getText(),tfNome.getText(), tfGenero.getText(),valor,id);
-            if (bd != null && bd.getrJogo() != null) {
-                ok = bd.getrJogo().alterar(f);
-                if (!ok) {  
-                    JOptionPane.showMessageDialog(this, "Falha ao alterar — ID não encontrado.", "Erro", JOptionPane.ERROR_MESSAGE);
+                int id = Integer.parseInt(tfId.getText().trim());
+                
+                try {
+                    bd.getrProduto().buscar(id);
+                    JOptionPane.showMessageDialog(this, "ID já existe! Escolha outro.", "Erro", JOptionPane.ERROR_MESSAGE);
                     return;
+                } catch (IDNaoExistenteExeception ex) {
                 }
-            }
-            if(ok){ // Se foi alterado atualiza a tabela e limpa os campos
+
+                float valor = Float.parseFloat(tfValor.getText().trim());
+                Jogo j = new Jogo(tfDesenvolvedor.getText(), tfNome.getText(), tfGenero.getText(), valor, id);
+                
+                bd.getrProduto().inserir(j);
+                
                 CarregarTabelodoBanco();
-                tabela.clearSelection();
                 LimpaCampos();
-            }
+                JOptionPane.showMessageDialog(this, "Jogo salvo com sucesso!");
 
-        } else if (e.getSource() == btrm) {
-            int sel = tabela.getSelectedRow();
-            if (sel == -1) return;
-            int modelIndex = tabela.convertRowIndexToModel(sel);
-            Object idVal = modeloTabela.getValueAt(modelIndex, 0);
-            if (idVal == null) return;
-            int id = Integer.parseInt(idVal.toString());
-            if (bd != null && bd.getrJogo() != null) {
-                boolean ok = bd.getrJogo().excluir(id);
-                if (!ok) {  
-                    JOptionPane.showMessageDialog(this, "Falha ao excluir — ID não encontrado.", "Erro", JOptionPane.ERROR_MESSAGE);
-                    return;
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "Verifique se o ID é inteiro e o Valor é numérico.", "Erro de Formato", JOptionPane.ERROR_MESSAGE);
+            }
+        } 
+        
+        // --- ALTERAR ---
+        else if (e.getSource() == btal) {
+            try {
+                int id = Integer.parseInt(tfId.getText().trim());
+                float valor = Float.parseFloat(tfValor.getText().trim());
+
+                Jogo j = new Jogo(tfDesenvolvedor.getText(), tfNome.getText(), tfGenero.getText(), valor, id);
+                
+                boolean sucesso = bd.getrProduto().alterar(j);
+    
+                if (sucesso) {
+                    CarregarTabelodoBanco();
+                    LimpaCampos();
+                    JOptionPane.showMessageDialog(this, "Jogo alterado com sucesso!");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Não foi possível alterar: ID não encontrado.", "Erro", JOptionPane.ERROR_MESSAGE);
                 }
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "Dados inválidos nos campos numéricos.", "Erro", JOptionPane.ERROR_MESSAGE);
             }
-            modeloTabela.removeRow(modelIndex);
-            LimpaCampos();
+        } 
+        
+        // --- APAGAR ---
+        else if (e.getSource() == btrm) {
+            try {
+                int id = Integer.parseInt(tfId.getText().trim());
+                
+                boolean removeu = bd.getrProduto().excluir(id);
+                
+                if (removeu) {
+                    CarregarTabelodoBanco();
+                    LimpaCampos();
+                    JOptionPane.showMessageDialog(this, "Jogo excluído.");
+                } else {
+                    JOptionPane.showMessageDialog(this, "ID não encontrado para exclusão.", "Erro", JOptionPane.ERROR_MESSAGE);
+                }
 
-        } else if (e.getSource() == btcn) {
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "Selecione um jogo ou digite um ID válido.", "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+        } 
+        
+        // --- LIMPAR ---
+        else if (e.getSource() == btcn) {
             LimpaCampos();
             tabela.clearSelection();
         }
@@ -285,5 +263,4 @@ public class JJogo extends JFrame implements ActionListener {
         tfValor.setText("");
         tfDesenvolvedor.setText("");
     }
-
 }

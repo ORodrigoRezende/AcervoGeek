@@ -1,33 +1,13 @@
 package modelo;
 
-public class Livro extends Entidade{
-    private String nome;
+public class Livro extends Produto{
     private String genero;
-    private float valor;
     private String autor;
 
-    public Livro() {
-        super();
-        this.nome = "";
-        this.genero = "";
-        this.valor = 0f;
-        this.autor = "";
-    }
-
     public Livro(String nome, String genero, float valor, String autor, int id) {
-        super(id);
-        this.nome = nome;
+        super(id,nome,valor);
         this.genero = genero;
-        this.valor = valor;
         this.autor = autor;
-    }
-
-        public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
     }
 
     public String getGenero() {
@@ -38,14 +18,6 @@ public class Livro extends Entidade{
         this.genero = genero;
     }
 
-    public float getValor() {
-        return valor;
-    }
-
-    public void setValor(float valor) {
-        this.valor = valor;
-    }
-
     public String getAutor() {
         return autor;
     }
@@ -54,8 +26,8 @@ public class Livro extends Entidade{
         this.autor = autor;
     }
 
-    @Override
-    public String toString() {
-        return super.toString() + "\n Nome: " + nome + "\n Genero: " + genero + "\n Valor=" + valor + "\n Autor: " + autor + "\n";
-    }
+    // @Override
+    // public String toString() {
+    //     return super.toString() + "\n Nome: " + nome + "\n Genero: " + genero + "\n Valor=" + valor + "\n Autor: " + autor + "\n";
+    // }
 }
