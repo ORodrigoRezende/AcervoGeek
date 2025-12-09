@@ -94,7 +94,7 @@ public class JItensAluga extends JFrame {
 
             ItensAluga ia = new ItensAluga(id, item, dias, valor);
 
-            bd.getrAluga().inserir(ia);
+            bd.getrItensAluga().inserir(ia);
 
             JOptionPane.showMessageDialog(this, "Item cadastrado!");
 
